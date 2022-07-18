@@ -1,4 +1,15 @@
-from django.http import HttpResponse
+from django.http import *
+from django.shortcuts import render
  
-def index(request):
-    return HttpResponse("<h2>Главная</h2>")
+
+class Home():
+    def index(request):
+        data = {'title': 'Главная страница', 'page_name': 'index'}
+        return render(request, 'index.html', context=data)
+
+class Panel():   
+    def index(request):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect('/accounts/login/')
+        data = {'title': 'Главная страница', 'page_name': 'dashboard'}
+        return render(request, 'panel/index.html', context=data)
