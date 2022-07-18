@@ -18,8 +18,9 @@ from django.urls import path, include
 from backuper import views
  
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.Home.index),
+    path('admin/', admin.site.urls),
     path('panel/', views.Panel.index),
+    path('panel/filebrowser/', views.Panel.filebrowser),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
