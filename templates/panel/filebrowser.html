@@ -1,140 +1,84 @@
 {% load staticfiles %}
 <div class="container-fluid">
-    <!-- Small boxes (Stat box) -->
-    <div class="row">
-        <div class="col-12">
-          <div class="card">           <div class="card-header pb-1">
-                <div class="row justify-content-between">
-                  <div class="col-12 col-md-auto mb-2 mb-md-1 mx-sm-1">
-                    <a href="http://daliman.pp.ua/admin/videos_add" class="btn btn-success xs-block"><span class="btn-label"></span>Файлы</a>
-                  </div>
-                  <div class="col-12 col-md-auto float-md-right">
-                    <form class="form-inline float-md-right dataTables_filter mb-md-0 mb-2" method="get" action="http://daliman.pp.ua/admin/videos">
-                      <button type="submit" class="btn btn-primary xs-block mx-sm-1 mb-2">
-                        <span class="btn-label">
-                          <i class="fa fa-search"></i>
-                        </span>Search</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <div class="table-responsive dataTables_wrapper dt-bootstrap4">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <table id="example2" class="table table-bordered table-hover dataTable dtr-inline">
-                        <thead>
-                          <tr>
-                            <th style="vertical-align: inherit"> Название</th>
-                            <th style="vertical-align: inherit; width: 10px"> Последнее изменение </th>
-                            <th style="vertical-align: inherit; width: 10px"> Размер </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr id="row_69625">
-                              <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                              <td>2019-01-01</td>
-                              <td>200мб</td>
-                            </tr> 
-                            <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                              <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                              <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                              <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                              <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                              <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                              <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                              <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                              <tr id="row_69625">
-                                <td><i class="fas fa-folder fa-lg"></i> 1</td>
-                                <td>
-                                  <a href="http://daliman.pp.ua/watch/69625">
-                                    <strong> кунеун </strong>
-                                  </a>
-                                </td>
-                                <td>  </td>
-                              </tr> 
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <!-- Small boxes (Stat box) -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card" id="filemanager_table">
+        <div class="card-header pb-1">
+          <div class="row justify-content-between">
+            <div class="col-12 col-md-auto mb-2 mb-md-1 mx-sm-1" id="path">
+              {% if path %}
+                {% for p in path %}
+                  {% if p.id == 0%}
+                    <a href="javascript://" class="btn btn-light xs-block" onclick="open_folder('{{p.id}}')">Мои файлы <i class="fas fa-angle-right"></i></a>
+                  {% else %}
+                    {% if forloop.counter0 == path|length|add:"-1"%}
+                      <a href="javascript://" class="btn btn-light xs-block" onclick="open_folder('{{p.id}}')">{{p.filename}} <i class="fas fa-caret-down"></i></a>
+                    {% else %}
+                      <a href="javascript://" class="btn btn-light xs-block" onclick="open_folder('{{p.id}}')">{{p.filename}} <i class="fas fa-angle-right"></i></a>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <a href="javascript://" class="btn btn-light xs-block">Мои файлы <i class="fas fa-caret-down"></i></a>
+              {% endif %}
+            </div>
+            <div class="col-12 col-md-auto float-md-right">
+              <form class="form-inline float-md-right dataTables_filter mb-md-0 mb-2" method="get" action="http://daliman.pp.ua/admin/videos">
+                <button type="submit" class="btn btn-primary xs-block mx-sm-1 mb-2"><span class="btn-label"><i class="fa fa-search"></i></span>Search</button>
+              </form>
+            </div>
           </div>
-          <style>
-            @media (max-width: 576px) {
-              .xs-block {
-                display: block;
-                width: 100%;
-              }
-            }
-          </style>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
+        <div class="card-body">
+          <div class="table-responsive dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+              <div class="col-sm-12">
+                <table id="example2" class="table table-bordered table-hover dataTable dtr-inline">
+                  <thead>
+                    <tr>
+                      <th style="vertical-align: inherit">Название</th>
+                      <th style="vertical-align: inherit; width: 10px">Последнее изменение</th>
+                      <th style="vertical-align: inherit; width: 10px">Размер</th>
+                    </tr>
+                  </thead>
+                  <tbody id="filebrowser">  
+                     {% comment %} Check if data contains data  {% endcomment %}
+                    {% if data %}               
+                    {% for file in data %}
+                    {% if file.type == 'file' %}
+                      <tr>
+                        <td><i class="fas fa-file fa-lg"></i><a href="javascript://" onclick="open_file({{ file.id }})"> {{ file.filename }}</a></td>
+                        <td style="display: block ruby;">{{ file.last_update }}</td>
+                        <td>{{ file.size }}</td>
+                      </tr>
+                    {% else %}
+                      <tr>
+                        <td><i class="fas fa-folder fa-lg"></i><a href="javascript://" onclick="open_folder('{{ file.id }}')"> {{ file.filename }}</a></td>
+                        <td style="display: block ruby;">{{ file.last_update }}</td>
+                        <td>{{ file.size }}</td>
+                      </tr>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                  </tbody>
+                </table>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-</div> <!-- /.container-fluid -->
+      <style>
+        @media (max-width: 576px) {
+          .xs-block {
+            display: block;
+            width: 100%;
+          }
+        }
+      </style>
+    </div>
+  </div>
+</div>
+
+<script src="{% static "panel/js/filemanager.js" %}" /></script>
