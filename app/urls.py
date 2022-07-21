@@ -23,6 +23,6 @@ urlpatterns = [
     path('panel/', views.Panel.index),
     path('panel/filebrowser/', views.Panel.filebrowser),
     path('panel/filebrowser/folders/<slug:slug>/', views.Panel.filebrowser),
-    path('panel/filebrowser_api', views.Panel.filebrowser_api),
+    path('panel/filebrowser_api/', views.Panel.filebrowser_api),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

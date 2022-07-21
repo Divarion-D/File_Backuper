@@ -1,6 +1,7 @@
 from django.http import *
 from django.shortcuts import render
 from backuper.models import *
+from utils.filemanager import *
 import json
 
 class Home():
@@ -30,7 +31,7 @@ class Panel():
                         'type': file.type,
                         'parent_id': file.parent_id,
                         'last_update': file.last_update,
-                        'size': file.size,
+                        'size': convert_bytes(file.size),
                         'type': file.type
                     })
                 if request.META.get('HTTP_REFERER'):
@@ -50,7 +51,7 @@ class Panel():
                     'type': file.type,
                     'parent_id': file.parent_id,
                     'last_update': file.last_update,
-                    'size': file.size,
+                    'size': convert_bytes(file.size),
                     'type': file.type
                 })
             data = {'title': 'Главная страница', 'page_name': 'filebrowser','data': data}
@@ -90,4 +91,17 @@ class Panel():
                     return JsonResponse({'status': 'success'})
                 else:
                     return JsonResponse({'status': 'error'})
+            elif request.POST.get('action') == 'upload':
+                folder = Filemanager.objects.filter(file_id=request.POST.get('folder_id'), user_id=request.user.id)
+                file = request.FILES.get('file')
+                Filemanager.objects.create(
+                    file_id = generate_hash(15),
+                    user_id=request.user.id,
+                    filename=file.name,
+                    parent_id=folder[0].id,
+                    size = file.size,
+                    type='file'
+                )
+                save_file(file)                      
+                return JsonResponse({'status': 'success'})
 
