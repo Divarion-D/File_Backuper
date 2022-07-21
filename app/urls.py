@@ -24,5 +24,8 @@ urlpatterns = [
     path('panel/filebrowser/', views.Panel.filebrowser),
     path('panel/filebrowser/folders/<slug:slug>/', views.Panel.filebrowser),
     path('panel/filebrowser_api/', views.Panel.filebrowser_api),
-    path('accounts/', include('django.contrib.auth.urls')),
+    ######## User Auth System ########
+    path('login/', views.Auth.login, name ='login'),
+    path('logout/', views.Auth.logout, name ='logout'),
+    path('signup/', views.Auth.signup, name ='signup'),
 ]

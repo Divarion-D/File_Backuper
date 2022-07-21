@@ -1,7 +1,11 @@
+import email
+from django.conf import settings
 from django.http import *
 from django.shortcuts import render
 from backuper.models import *
 from utils.filemanager import *
+from django.contrib.auth import authenticate, login, logout
+from backuper.forms import *
 import json
 
 class Home():
@@ -9,16 +13,53 @@ class Home():
         data = {'title': 'Главная страница', 'page_name': 'index'}
         return render(request, 'index.html', context=data)
 
+class Auth():
+    def login(request):
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            remember = request.POST.get('remember')
+            user = authenticate(request, username = username, password = password)
+            if user is not None:
+                login(request, user)
+                if remember == 'on':
+                    request.session.set_expiry(60 * 60 * 24 * 7)
+                return HttpResponseRedirect('/panel/')
+            else:
+                return render(request, 'user/login.html', context={'error': 'Неверный логин или пароль'})
+        else:
+            data = {'title': 'Авторизация', 'page_name': 'login'}
+            return render(request, 'user/login.html', context=data)
+    def signup(request):
+        if request.method == 'POST':
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = authenticate(request, username = form.cleaned_data['username'], password = form.cleaned_data['password1'])
+                login(request, user)
+                return HttpResponseRedirect('/panel/')
+            else:
+                error = form.errors.get_json_data()
+                error = list(error.values())[0]                
+                data = {'title': 'Регистрация', 'page_name': 'signup', 'error': error}
+                return render(request, 'user/signup.html', context=data)
+        else:
+            data = {'title': 'Регистрация', 'page_name': 'signup'}
+            return render(request, 'user/signup.html', context=data)
+    def logout(request):
+        logout(request)
+        return HttpResponseRedirect('/')
+
 class Panel():   
     def index(request):
         if not request.user.is_authenticated:
-            return HttpResponseRedirect('/accounts/login/')
+            return HttpResponseRedirect('/login/')
         data = {'title': 'Главная страница', 'page_name': 'dashboard'}
         return render(request, 'panel/index.html', context=data)
 
     def filebrowser(request, slug=None):
         if not request.user.is_authenticated:
-            return HttpResponseRedirect('/accounts/login/')
+            return HttpResponseRedirect('/login/')
         if slug:
             data = []
             folder = Filemanager.objects.filter(file_id=slug, user_id=request.user.id)
@@ -59,7 +100,7 @@ class Panel():
     
     def filebrowser_api(request):
         if not request.user.is_authenticated:
-            return HttpResponseRedirect('/accounts/login/')
+            return HttpResponseRedirect('/login/')
         if request.method == 'POST':
             if request.POST.get('action') == 'create_folder':
                 folder = Filemanager.objects.create(

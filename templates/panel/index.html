@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% with base_url=request.scheme|add:"://"|add:request.get_host %}{% endwith %}
+
 <html>
 
 <head>
@@ -148,7 +150,7 @@
                             Профиль
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="login/logout" class="dropdown-item"> <i
+                        <a href="{{base_url}}/logout" class="dropdown-item"> <i
                                 class="fas fa-sign-out-alt mr-2"></i></i>
                             Выход
                         </a>
