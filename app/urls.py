@@ -21,9 +21,8 @@ urlpatterns = [
     path('', views.Home.index),
     path('admin/', admin.site.urls),
     path('panel/', views.Panel.index),
-    path('panel/filebrowser/', views.Panel.filebrowser),
-    path('panel/filebrowser/folders/<slug:slug>/', views.Panel.filebrowser),
-    path('panel/filebrowser_api/', views.Panel.filebrowser_api),
+    path('panel/filemanager/', views.Panel.filemanager),
+    path('panel/filemanager_backend/', views.Panel.filemanager_backend),
     ######## User Auth System ########
     path('login/', views.Auth.login, name ='login'),
     path('logout/', views.Auth.logout, name ='logout'),

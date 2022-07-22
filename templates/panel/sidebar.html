@@ -1,7 +1,8 @@
 {% load staticfiles %}
+{% with base_url=request.scheme|add:"://"|add:request.get_host %}{% endwith %}
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo --><a href="#" class="brand-link">
+    <!-- Brand Logo --><a href="{{base_url}}/panel/" class="brand-link">
         <img src="{% static "panel/img/AdminLTELogo.png" %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
@@ -20,31 +21,19 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-video"></i>
-                        <p> 123 <i class="right fas fa-angle-left"></i> </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-circle"></i>
-                                <p>1</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-circle"></i>
-                                <p>2</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-circle"></i>
-                                <p>3</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+					<a href="{{base_url}}/panel/" class="nav-link ">
+					    <i class="nav-icon fas fa-tachometer-alt"></i>
+						<p> Dashboard</p>
+					</a>
+				</li>
+            </ul>
+            <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+					<a href="{{base_url}}/panel/filemanager/" class="nav-link ">
+					    <i class="nav-icon fas fa-folder"></i>
+						<p> Filebrowser</p>
+					</a>
+				</li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

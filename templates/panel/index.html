@@ -3,13 +3,12 @@
 {% with base_url=request.scheme|add:"://"|add:request.get_host %}{% endwith %}
 
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="copyright" content="Copyright (c) 2022 Dalim">
     <title>{{title}}</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -160,6 +159,7 @@
             </ul>
         </nav>
         {% include 'panel/sidebar.html' %}
+        {% if page_name != 'filemanager'%}
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -179,6 +179,11 @@
                 {% include 'panel/'|add:page_name|add:'.html' %}
             </section>
         </div>
+        {% else %}
+            <div class="content-wrapper" id="filemanager">
+                {% include 'panel/'|add:page_name|add:'.html' %}
+            </div>
+        {% endif %}
         <footer class="main-footer"> <strong>Copyright &copy; 2021-2022 LARON.</strong> All rights reserved.
             <div class="float-right d-none d-sm-inline-block"> <b>Version</b> 3.2.0 </div>
         </footer>

@@ -1,0 +1,21 @@
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static "filemanager/manager/manager.js" %}" /></script>
+<link	rel="stylesheet" type="text/css" href="{% static "filemanager/manager/skins/flat.css" %}" />
+
+<!-- App -->
+<script type="text/javascript" src="{% static "filemanager/filemanager.js" %}" /></script>
+<link rel="stylesheet" type="text/css" href="{% static "filemanager/skins/flat.css" %}" />
+
+<script>
+  manager.ready(function() {
+    var host = window.location.origin;
+    if (manager.env.mobile) manager.ui.fullScreen();
+    manager.CustomScroll.init();
+
+    const app = new fileManager.App({
+      url: host + '/panel/filemanager_backend/',
+    });
+    app.render(document.getElementById("filemanager"));
+  });
+</script>

@@ -57,48 +57,13 @@ class Panel():
         data = {'title': 'Главная страница', 'page_name': 'dashboard'}
         return render(request, 'panel/index.html', context=data)
 
-    def filebrowser(request, slug=None):
+    def filemanager(request, slug=None):
         if not request.user.is_authenticated:
             return HttpResponseRedirect('/login/')
-        if slug:
-            data = []
-            folder = Filemanager.objects.filter(file_id=slug, user_id=request.user.id)
-            if folder:
-                files = Filemanager.objects.filter(parent_id=folder[0].id)
-                for file in files:
-                    data.append({
-                        'id': file.file_id,
-                        'filename': file.filename,
-                        'type': file.type,
-                        'parent_id': file.parent_id,
-                        'last_update': file.last_update,
-                        'size': convert_bytes(file.size),
-                        'type': file.type
-                    })
-                if request.META.get('HTTP_REFERER'):
-                    return render(request, 'panel/filebrowser.html', context={'data': data, 'path': json.loads(folder[0].file_path)})
-                else:
-                    data = {'title': 'Главная страница', 'page_name': 'filebrowser','data': data, 'path': json.loads(folder[0].file_path)}
-                    return render(request, 'panel/index.html', context=data)
-            else:
-                return HttpResponseRedirect('/panel/filebrowser/')
-        else:
-            files = Filemanager.objects.filter(user_id=request.user.id, parent_id=0)
-            data = []
-            for file in files:
-                data.append({
-                    'id': file.file_id,
-                    'filename': file.filename,
-                    'type': file.type,
-                    'parent_id': file.parent_id,
-                    'last_update': file.last_update,
-                    'size': convert_bytes(file.size),
-                    'type': file.type
-                })
-            data = {'title': 'Главная страница', 'page_name': 'filebrowser','data': data}
-            return render(request, 'panel/index.html', context=data)
+        data = {'title': 'Главная страница', 'page_name': 'filemanager',}
+        return render(request, 'panel/index.html', context=data)
     
-    def filebrowser_api(request):
+    def filemanager_backend(request):
         if not request.user.is_authenticated:
             return HttpResponseRedirect('/login/')
         if request.method == 'POST':
@@ -133,13 +98,17 @@ class Panel():
                 else:
                     return JsonResponse({'status': 'error'})
             elif request.POST.get('action') == 'upload':
-                folder = Filemanager.objects.filter(file_id=request.POST.get('folder_id'), user_id=request.user.id)
+                if request.POST.get('folder_id') != '0':
+                    folder = Filemanager.objects.filter(file_id=request.POST.get('folder_id'), user_id=request.user.id)
+                    parent_id = folder[0].id
+                else:
+                    parent_id = 0
                 file = request.FILES.get('file')
                 Filemanager.objects.create(
                     file_id = generate_hash(15),
                     user_id=request.user.id,
                     filename=file.name,
-                    parent_id=folder[0].id,
+                    parent_id=parent_id,
                     size = file.size,
                     type='file'
                 )
