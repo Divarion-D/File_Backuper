@@ -1,14 +1,11 @@
+from operator import ge
 import random
-from django.core.files.storage import FileSystemStorage
-from backuper.models import *
 import time
-fs = FileSystemStorage()
 
-def generate_hash(length):
-    """
-    Generate a random hash of a given length.
-    """
-    return ''.join(random.choice('0123456789abcdef') for i in range(length))
+from backuper.models import *
+from django.core.files.storage import FileSystemStorage
+
+fs = FileSystemStorage()
 
 def vfs_stats(user_id):
     """
@@ -20,13 +17,35 @@ def vfs_stats(user_id):
         info['used'] += file.size
     return info
 
-def vsf_features_config(user_id):
+
+def vfs_features_config(user_id):
     """
     Get the configuration for the filemanager.
     """
     return {'preview': {'code': False, 'document': False, 'image': False}, 'meta': {'audio': True, 'image': True}}
 
-def vsf_files(user_id, path):
+
+def vfs_folders(user_id, path):
+    """
+    Get the folders of the user.
+    """
+    if path == '/':
+        path = ''
+    folders = Filemanager.objects.filter(user_id=user_id, path=path, type='folder')
+    data = []
+    for folder in folders:
+        data.append({
+            'value': folder.filename,
+            'id': folder.path + '/' + folder.filename,
+            'size': folder.size,
+            'date': folder.date,
+            'type': folder.type,
+            'data': vfs_folders(user_id, folder.path + '/' + folder.filename)
+        })
+    return data
+
+
+def vfs_files(user_id, path):
     """
     Get the files of the user.
     """
@@ -45,7 +64,8 @@ def vsf_files(user_id, path):
     # return [{"value":"Code","id":"/Code","size":4096,"date":1658379600,"type":"folder"},{...}]
     return data
 
-def vsf_makedir(user_id, path, name):
+
+def vfs_makedir(user_id, path, name):
     """
     Create a new directory.
     """
@@ -70,12 +90,12 @@ def vsf_makedir(user_id, path, name):
         name = folder[0].filename + '.new'
 
     Filemanager.objects.create(
-        file_id = generate_hash(15),
+        file_id=generate_hash(15),
         user_id=user_id,
         filename=name,
         date=date,
         parent_id=parent_id,
-        size = 0,
+        size=0,
         type='folder',
         path=parent_path
     )
@@ -85,8 +105,65 @@ def vsf_makedir(user_id, path, name):
         'size': 0,
         'date': date,
         'type': 'folder'
-        }
+    }
     return data
+
+
+def vfs_move(user_id, filename, to):
+    """
+    Move a file to a new location.
+    """
+    filename = split_path(filename)
+    to = split_path(to)
+    date = int(time.time())
+
+    parent_folder = Filemanager.objects.filter(user_id=user_id, path=to[0], filename=to[1], type='folder')
+    parent_id = parent_folder[0].id
+    parent_path = parent_folder[0].path + '/' + parent_folder[0].filename
+
+    file = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=filename[1])
+    file_size = file[0].size
+    file_type = file[0].type
+
+    # check if the file already exists
+    file_check = Filemanager.objects.filter(user_id=user_id, path=parent_path, filename__contains=filename[1], type=file[0].type).order_by('-filename')
+    if file_check.count() > 0:
+        name = file[0].filename + '.new'
+    else:
+        name = file[0].filename
+
+    file.update(filename=name, parent_id=parent_id,
+                path=parent_path, date=date)
+    data = {
+        'value': name,
+        'id': parent_path+'/'+name,
+        'size': file_size,
+        'date': date,
+        'type': file_type
+    }
+    return data
+
+def vfs_rename(user_id, filename, name):
+    """
+    Rename a file.
+    """
+    filename = split_path(filename)
+    date = int(time.time())
+    # check if the file already exists
+    file_check = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=name)
+    if file_check.count() > 0:
+        name = file_check[0].filename + '.new'
+
+    file = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=filename[1])
+    file_id = file[0].path
+    file.update(filename=name, date=date)
+    data = {
+        "invalid":False,
+        "error":"",
+        "id":file_id+'/'+name
+    }
+    return data
+
 
 def split_path(path):
     """
@@ -99,3 +176,18 @@ def split_path(path):
     path_req = path_request[0:split_count-1]
     path_req = '/'.join(path_req)
     return [path_req, filename_req]
+
+
+def save_file(upload_file):
+    """
+    Save a file to the filesystem.
+    """
+    fs.save('filemanager/upload_temp/'+upload_file.name, upload_file)
+    print(fs.url(upload_file.name))
+
+
+def generate_hash(length):
+    """
+    Generate a random hash of a given length.
+    """
+    return ''.join(random.choice('0123456789abcdef') for i in range(length))

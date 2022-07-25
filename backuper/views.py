@@ -84,16 +84,22 @@ class Panel():
             return HttpResponseRedirect('/login/')
         if metod == 'info':
             stats = vfs_stats(request.user.id)
-            features = vsf_features_config(request.user.id)
+            features = vfs_features_config(request.user.id)
             data = {"stats":stats,"features":features}
             return JsonResponse(data)
         elif metod == 'folders':
-            data = [{"value":"Code","id":"/Code","size":4096,"date":1658379600,"type":"folder"},{"value":"Documents","id":"/Documents","size":4096,"date":1658379600,"type":"folder"},{"value":"Photos","id":"/Photos","size":4096,"date":1658379600,"type":"folder"}]
+            data = vfs_folders(request.user.id, request.GET.get('id'))
             return JsonResponse(data, safe=False)
         elif metod == 'files':
-            return JsonResponse(vsf_files(request.user.id, request.GET.get('id')), safe=False)
+            return JsonResponse(vfs_files(request.user.id, request.GET.get('id')), safe=False)
         elif metod == 'makedir':
-            data = vsf_makedir(request.user.id, request.POST.get('id'), request.POST.get('name'))
+            data = vfs_makedir(request.user.id, request.POST.get('id'), request.POST.get('name'))
+            return JsonResponse(data)
+        elif metod == 'move':
+            data = vfs_move(request.user.id, request.POST.get('id'), request.POST.get('to'))
+            return JsonResponse(data)
+        elif metod == 'rename':
+            data = vfs_rename(request.user.id, request.POST.get('id'), request.POST.get('name'))
             return JsonResponse(data)
 
 

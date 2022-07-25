@@ -12,9 +12,17 @@
     var host = window.location.origin;
     if (manager.env.mobile) manager.ui.fullScreen();
     manager.CustomScroll.init();
-
+    class CustomAddNewMenu extends fileManager.views["menus/addnewmenu"] {
+      init(view) {
+        super.init();
+        view.queryView("menu").remove("makefile"); // remove makefile menu
+      }
+    }
     const app = new fileManager.App({
-      url: host + '/panel/filemanager_backend/'
+      url: host + '/panel/filemanager_backend/',
+      override: new Map([
+						[fileManager.views["menus/addnewmenu"], CustomAddNewMenu],
+					]),
     });
     app.render(document.getElementById("filemanager"));
   });
