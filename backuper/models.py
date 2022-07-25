@@ -7,10 +7,10 @@ class Filemanager(models.Model):
     user_id = models.IntegerField()
     filename = models.CharField(max_length=255)
     parent_id = models.IntegerField(default=0)
-    last_update = models.DateField(auto_now=True)
+    date = models.IntegerField()
     size = models.IntegerField()
     type = models.CharField(max_length=20)
-    file_path = models.CharField(max_length=255, null=True)
+    path = models.CharField(max_length=255, null=True)
 
 class Filemanager_hosting(models.Model):
     file_id = models.IntegerField()

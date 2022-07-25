@@ -1,4 +1,3 @@
-import email
 from django.conf import settings
 from django.http import *
 from django.shortcuts import render
@@ -6,7 +5,7 @@ from backuper.models import *
 from utils.filemanager import *
 from django.contrib.auth import authenticate, login, logout
 from backuper.forms import *
-import json
+import os
 
 class Home():
     def index(request):
@@ -57,61 +56,63 @@ class Panel():
         data = {'title': 'Главная страница', 'page_name': 'dashboard'}
         return render(request, 'panel/index.html', context=data)
 
-    def filemanager(request, slug=None):
+    def filemanager(request):
         if not request.user.is_authenticated:
             return HttpResponseRedirect('/login/')
         data = {'title': 'Главная страница', 'page_name': 'filemanager',}
         return render(request, 'panel/index.html', context=data)
-    
-    def filemanager_backend(request):
+
+    def filemanager_icons(request, size=None, type=None, file='', format=None):
         if not request.user.is_authenticated:
             return HttpResponseRedirect('/login/')
-        if request.method == 'POST':
-            if request.POST.get('action') == 'create_folder':
-                folder = Filemanager.objects.create(
-                    filename=request.POST.get('filename'),
-                    type='folder',
-                    user_id=request.user.id,
-                    parent_id=request.POST.get('parent_id')
-                )
-                return JsonResponse({'status': 'success', 'id': folder.file_id})
-            elif request.POST.get('action') == 'create_file':
-                file = Filemanager.objects.create(
-                    filename=request.POST.get('filename'),
-                    type='file',
-                    user_id=request.user.id,
-                    parent_id=request.POST.get('parent_id')
-                )
-                return JsonResponse({'status': 'success', 'id': file.file_id})
-            elif request.POST.get('action') == 'delete':
-                file = Filemanager.objects.filter(file_id=request.POST.get('id'), user_id=request.user.id)
-                if file:
-                    file.delete()
-                    return JsonResponse({'status': 'success'})
-                else:
-                    return JsonResponse({'status': 'error'})
-            elif request.POST.get('action') == 'rename':
-                file = Filemanager.objects.filter(file_id=request.POST.get('id'), user_id=request.user.id)
-                if file:
-                    file.update(filename=request.POST.get('filename'))
-                    return JsonResponse({'status': 'success'})
-                else:
-                    return JsonResponse({'status': 'error'})
-            elif request.POST.get('action') == 'upload':
-                if request.POST.get('folder_id') != '0':
-                    folder = Filemanager.objects.filter(file_id=request.POST.get('folder_id'), user_id=request.user.id)
-                    parent_id = folder[0].id
-                else:
-                    parent_id = 0
-                file = request.FILES.get('file')
-                Filemanager.objects.create(
-                    file_id = generate_hash(15),
-                    user_id=request.user.id,
-                    filename=file.name,
-                    parent_id=parent_id,
-                    size = file.size,
-                    type='file'
-                )
-                save_file(file)                      
-                return JsonResponse({'status': 'success'})
+        icons_dir = os.path.join(settings.BASE_DIR, "static") + '/filemanager/icons'
+        if size == 'small':
+            icon_file = icons_dir + '/small/' + file + '.svg'
+            # check if file exists
+            if os.path.isfile(icon_file):
+                return HttpResponse(open(icon_file, 'rb'), content_type='image/svg+xml')
+            else:
+                return HttpResponse(open(icons_dir + '/small/types/'+type+'.svg', 'rb'), content_type='image/svg+xml')
+        elif size == 'big':
+            icon_file = icons_dir + '/big/' + type + '.svg'
+            # check if file exists
+            if os.path.isfile(icon_file):
+                return HttpResponse(open(icon_file, 'rb'), content_type='image/svg+xml')
+    
+    def filemanager_backend(request, metod=None):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect('/login/')
+        if metod == 'info':
+            stats = vfs_stats(request.user.id)
+            features = vsf_features_config(request.user.id)
+            data = {"stats":stats,"features":features}
+            return JsonResponse(data)
+        elif metod == 'folders':
+            data = [{"value":"Code","id":"/Code","size":4096,"date":1658379600,"type":"folder"},{"value":"Documents","id":"/Documents","size":4096,"date":1658379600,"type":"folder"},{"value":"Photos","id":"/Photos","size":4096,"date":1658379600,"type":"folder"}]
+            return JsonResponse(data, safe=False)
+        elif metod == 'files':
+            return JsonResponse(vsf_files(request.user.id, request.GET.get('id')), safe=False)
+        elif metod == 'makedir':
+            data = vsf_makedir(request.user.id, request.POST.get('id'), request.POST.get('name'))
+            return JsonResponse(data)
+
+
+
+        elif request.POST.get('action') == 'upload':
+            if request.POST.get('folder_id') != '0':
+                folder = Filemanager.objects.filter(file_id=request.POST.get('folder_id'), user_id=request.user.id)
+                parent_id = folder[0].id
+            else:
+                parent_id = 0
+            file = request.FILES.get('file')
+            Filemanager.objects.create(
+                file_id = generate_hash(15),
+                user_id=request.user.id,
+                filename=file.name,
+                parent_id=parent_id,
+                size = file.size,
+                type='file'
+            )
+            save_file(file)                      
+            return JsonResponse({'status': 'success'})
 

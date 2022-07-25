@@ -14,15 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from backuper import views
+from django.views.decorators.csrf import csrf_exempt
  
 urlpatterns = [
     path('', views.Home.index),
     path('admin/', admin.site.urls),
     path('panel/', views.Panel.index),
     path('panel/filemanager/', views.Panel.filemanager),
-    path('panel/filemanager_backend/', views.Panel.filemanager_backend),
+    path('panel/filemanager_backend/<slug:metod>', csrf_exempt(views.Panel.filemanager_backend)),
+    path('panel/filemanager_backend/icons/<slug:size>/<slug:type>/<slug:file>.<slug:format>', views.Panel.filemanager_icons),
+    path('panel/filemanager_backend/icons/<slug:size>/<slug:type>/.<slug:format>', views.Panel.filemanager_icons),
     ######## User Auth System ########
     path('login/', views.Auth.login, name ='login'),
     path('logout/', views.Auth.logout, name ='logout'),
