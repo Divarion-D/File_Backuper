@@ -72,7 +72,10 @@ class Panel():
             if os.path.isfile(icon_file):
                 return HttpResponse(open(icon_file, 'rb'), content_type='image/svg+xml')
             else:
-                return HttpResponse(open(icons_dir + '/small/types/'+type+'.svg', 'rb'), content_type='image/svg+xml')
+                if type == "undefined":
+                    return HttpResponse(open(icons_dir + '/small/types/file.svg', 'rb'), content_type='image/svg+xml')
+                else:
+                    return HttpResponse(open(icons_dir + '/small/types/'+type+'.svg', 'rb'), content_type='image/svg+xml')
         elif size == 'big':
             icon_file = icons_dir + '/big/' + type + '.svg'
             # check if file exists
@@ -91,7 +94,11 @@ class Panel():
             data = vfs_folders(request.user.id, request.GET.get('id'))
             return JsonResponse(data, safe=False)
         elif metod == 'files':
-            return JsonResponse(vfs_files(request.user.id, request.GET.get('id')), safe=False)
+            if request.GET.get('search'):
+                data = vfs_search(request.user.id, request.GET.get('id'), request.GET.get('search'))
+            else:
+                data = vfs_files(request.user.id, request.GET.get('id'))
+            return JsonResponse(data, safe=False)
         elif metod == 'makedir':
             data = vfs_makedir(request.user.id, request.POST.get('id'), request.POST.get('name'))
             return JsonResponse(data)
@@ -101,24 +108,7 @@ class Panel():
         elif metod == 'rename':
             data = vfs_rename(request.user.id, request.POST.get('id'), request.POST.get('name'))
             return JsonResponse(data)
-
-
-
-        elif request.POST.get('action') == 'upload':
-            if request.POST.get('folder_id') != '0':
-                folder = Filemanager.objects.filter(file_id=request.POST.get('folder_id'), user_id=request.user.id)
-                parent_id = folder[0].id
-            else:
-                parent_id = 0
-            file = request.FILES.get('file')
-            Filemanager.objects.create(
-                file_id = generate_hash(15),
-                user_id=request.user.id,
-                filename=file.name,
-                parent_id=parent_id,
-                size = file.size,
-                type='file'
-            )
-            save_file(file)                      
-            return JsonResponse({'status': 'success'})
+        elif metod == 'upload':
+            data = vfs_upload(request.user.id, request.GET.get('id'), request.FILES.get('upload'))
+            return JsonResponse(data)
 

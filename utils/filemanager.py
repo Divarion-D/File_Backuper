@@ -1,4 +1,3 @@
-from operator import ge
 import random
 import time
 
@@ -6,6 +5,7 @@ from backuper.models import *
 from django.core.files.storage import FileSystemStorage
 
 fs = FileSystemStorage()
+
 
 def vfs_stats(user_id):
     """
@@ -61,7 +61,6 @@ def vfs_files(user_id, path):
             'type': file.type,
             'id': file.path + '/' + file.filename
         })
-    # return [{"value":"Code","id":"/Code","size":4096,"date":1658379600,"type":"folder"},{...}]
     return data
 
 
@@ -70,7 +69,6 @@ def vfs_makedir(user_id, path, name):
     Create a new directory.
     """
     if path != '/':
-        # print count (/) path
         if len(path.split('/')) < 3:
             parent_folder = Filemanager.objects.filter(user_id=user_id, path='', filename=path.split('/')[1], type='folder')
         else:
@@ -143,6 +141,7 @@ def vfs_move(user_id, filename, to):
     }
     return data
 
+
 def vfs_rename(user_id, filename, name):
     """
     Rename a file.
@@ -158,9 +157,87 @@ def vfs_rename(user_id, filename, name):
     file_id = file[0].path
     file.update(filename=name, date=date)
     data = {
-        "invalid":False,
-        "error":"",
-        "id":file_id+'/'+name
+        "invalid": False,
+        "error": "",
+        "id": file_id+'/'+name
+    }
+    return data
+
+
+def vfs_search(user_id, path, query, loop=False):
+    """
+    Search for files and folder.
+    """
+    folders = vfs_folders(user_id, path)
+    file = Filemanager.objects.filter(user_id=user_id, filename__contains=query)
+    folder_id = []
+    for folder in folders:
+        folder_id.append(folder['id'])
+        folder_id.extend(vfs_search(user_id, folder['id'], query, True))
+
+    if loop:
+        return folder_id
+    else:
+        data = []
+        for file in file:
+            if file.path in folder_id:
+                data.append({
+                    'value': file.filename,
+                    'id': file.path + '/' + file.filename,
+                    'size': file.size,
+                    'date': file.date,
+                    'type': file.type
+                })
+        return data
+
+
+def vfs_upload(user_id, path, file):
+    """
+    Upload a file.
+    """
+    name = file.name
+    type = parse_content_type(file.content_type)
+    date = int(time.time())
+
+    if path != '/':
+        if len(path.split('/')) < 3:
+            parent_folder = Filemanager.objects.filter(user_id=user_id, path='', filename=path.split('/')[1], type='folder')
+        else:
+            split_dir = split_path(path)
+            parent_folder = Filemanager.objects.filter(user_id=user_id, path=split_dir[0], filename=split_dir[1], type='folder')
+        parent_id = parent_folder[0].id
+        parent_path = parent_folder[0].path + '/' + parent_folder[0].filename
+    else:
+        parent_id = 0
+        parent_path = ''
+
+    if path == '/':
+        path = ''
+
+    # check if the file already exists
+    file_check = Filemanager.objects.filter(user_id=user_id, path=path, filename=name)
+    if file_check.count() > 0:
+        name = file_check[0].filename + '.new'
+
+    Filemanager.objects.create(
+        file_id=generate_hash(15),
+        user_id=user_id,
+        filename=name,
+        parent_id=parent_id,
+        size=file.size,
+        type=type,
+        path=parent_path,
+        date=date
+    )
+
+    save_file(file)
+
+    data = {
+        'value': name,
+        'id': parent_path+'/'+name,
+        'size': file.size,
+        'date': date,
+        'type': type
     }
     return data
 
@@ -191,3 +268,17 @@ def generate_hash(length):
     Generate a random hash of a given length.
     """
     return ''.join(random.choice('0123456789abcdef') for i in range(length))
+
+
+def parse_content_type(type):
+    content_type = type.split('/')[0]
+    if content_type == 'image':
+        return 'image'
+    elif content_type == 'video':
+        return 'video'
+    elif content_type == 'audio':
+        return 'audio'
+    elif content_type == 'text':
+        return 'code'
+    else:
+        return 'file'

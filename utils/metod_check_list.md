@@ -1,0 +1,19 @@
+- [ ] copy()
+- [ ] direct()
+- [x] files()
+- [x] folders()
+- [x] info()
+- [ ] meta()
+- [ ] getRootName()
+- [x] icon()
+- [x] makedir()
+- [ ] makefile() // Не нужен из за особеностей приложения
+- [x] move()
+- [ ] preview()
+- [ ] text() // Не нужен из за особеностей приложения
+- [ ] delete()
+- [x] rename()
+- [x] search()
+- [x] upload()
+- [ ] url()
+- [ ] writeText() // Не нужен из за особеностей приложения
