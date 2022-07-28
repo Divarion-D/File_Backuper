@@ -1,2 +1,4 @@
-django
 lxml
+PyMySQL
+requests
+django

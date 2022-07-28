@@ -1,5 +1,4 @@
 from django.conf import settings
-from matplotlib import rc
 from backuper.utils.rclone import *
 from backuper.utils.filehosting import *
 import re
