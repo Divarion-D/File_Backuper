@@ -15,6 +15,8 @@ class Home():
 
 class Auth():
     def login(request):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/panel/')
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -31,6 +33,8 @@ class Auth():
             data = {'title': 'Авторизация', 'page_name': 'login'}
             return render(request, 'user/login.html', context=data)
     def signup(request):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/panel/')
         if request.method == 'POST':
             form = SignUpForm(request.POST)
             if form.is_valid():
@@ -124,9 +128,7 @@ class Cron ():
     def upload_file(request):
         key = request.GET.get('key')
         if key == settings.CRON_KEY:
-            data = cron_upload_file()
-            # remove escape characters
-
-            return JsonResponse({'status': 'ok', 'data': data})
+            cron_upload_file()
+            return JsonResponse({'status': 'ok'})
         else:
             return JsonResponse({'status': 'error', 'error': 'Incorrect key'})

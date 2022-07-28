@@ -24,6 +24,8 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 # Rclone config file
 RCLONE_CONFIG = os.path.dirname(os.path.abspath(__file__))+"/rclone.conf"
 
+TEMP_PATH = BASE_DIR / "temp"
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 

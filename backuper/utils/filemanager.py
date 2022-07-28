@@ -2,6 +2,7 @@ import random
 import time
 
 from backuper.models import *
+from backuper.utils.common import *
 from django.core.files.storage import FileSystemStorage
 
 fs = FileSystemStorage()
@@ -85,7 +86,7 @@ def vfs_makedir(user_id, path, name):
     path = '' if path == '/' else path
     folder = Filemanager.objects.filter(user_id=user_id, path=path, filename__contains=name, type='folder').order_by('-filename')
     if folder.count() > 0:
-        name = folder[0].filename + '.new'
+        name = "new." + folder[0].filename
 
     Filemanager.objects.create(
         file_id=generate_hash(15),
@@ -126,7 +127,7 @@ def vfs_move(user_id, filename, to):
     # check if the file already exists
     file_check = Filemanager.objects.filter(user_id=user_id, path=parent_path, filename__contains=filename[1], type=file[0].type).order_by('-filename')
     if file_check.count() > 0:
-        name = file[0].filename + '.new'
+        name = "new." + file[0].filename
     else:
         name = file[0].filename
 
@@ -151,7 +152,7 @@ def vfs_rename(user_id, filename, name):
     # check if the file already exists
     file_check = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=name)
     if file_check.count() > 0:
-        name = file_check[0].filename + '.new'
+        name = "new." + file_check[0].filename
 
     file = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=filename[1])
     file_id = file[0].path
@@ -215,9 +216,11 @@ def vfs_upload(user_id, path, file):
         path = ''
 
     # check if the file already exists
-    file_check = Filemanager.objects.filter(user_id=user_id, path=path, filename=name)
+    file_check = Filemanager.objects.filter(user_id=user_id, path=path, filename__contains=name)
     if file_check.count() > 0:
-        name = file_check[0].filename + '.new'
+        # add name new in count to avoid duplicates
+        for i in range(1, file_check.count()+1):
+            name = "new." + name
 
     Filemanager.objects.create(
         file_id=generate_hash(15),
@@ -230,7 +233,7 @@ def vfs_upload(user_id, path, file):
         date=date
     )
 
-    save_file(file)
+    save_file(user_id, file, name)
 
     data = {
         'value': name,
@@ -242,24 +245,11 @@ def vfs_upload(user_id, path, file):
     return data
 
 
-def split_path(path):
-    """
-    Split the path into a list.
-    return: [path, filename]
-    """
-    path_request = path.split('/')
-    split_count = len(path_request)
-    filename_req = path_request[split_count-1]
-    path_req = path_request[0:split_count-1]
-    path_req = '/'.join(path_req)
-    return [path_req, filename_req]
-
-
-def save_file(upload_file):
+def save_file(user_id, upload_file, filename):
     """
     Save a file to the filesystem.
     """
-    fs.save('filemanager/upload_temp/'+upload_file.name, upload_file)
+    fs.save(f"temp/filemanager/upload_temp/{user_id}/{filename}", upload_file)
     print(fs.url(upload_file.name))
 
 

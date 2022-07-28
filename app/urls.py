@@ -20,7 +20,8 @@ from django.views.decorators.csrf import csrf_exempt
  
 urlpatterns = [
     ######## General #########
-    path('', views.Home.index),
+    # path('', views.Home.index),
+    path('', views.Auth.login, name='login'),
     path('admin/', admin.site.urls),
     path('panel/', views.Panel.index),
     ######## Filemanager #########
