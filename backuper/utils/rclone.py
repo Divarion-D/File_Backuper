@@ -1,7 +1,8 @@
-
 """
 A Python wrapper for rclone.
 """
+#
+# https://github.com/ddragosd/python-rclone
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -86,6 +87,15 @@ class RClone:
         command_result = self._execute(command_with_args)
 
         return command_result
+
+    def about(self, remote, flags=[]):
+        """
+        Executes: rclone about [flags]
+        Args:
+        - remote (string): A string "remote:path" representing the location to delete.
+        - flags (list): Extra flags as per `rclone about --help` flags.
+        """
+        return self.run_cmd(command= "about", extra_args=[remote] + flags)
 
     def copy(self, source, dest, flags=[]):
         """

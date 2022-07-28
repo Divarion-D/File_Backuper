@@ -20,4 +20,26 @@
 - [ ] Бот для ВК
 - [ ] Бот для Telegram
 
+## Запуск
+- Нужно установить rclone (https://rclone.org/install/)
+- После чего для его конфигурирования запускаем команду:
+```
+python3 rclone_configure.py
+```
+- И добавляем доступные вам файловые хранилища(https://rclone.org/docs/)
+- После если нужно редактируем настройки панели 
+```
+nano app/settings.py
+```
+- Вам нужно настроить Database conection, LANGUAGE_CODE и CRON_KEY
+- Потом нужно выполнить один раз команды
+```
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
+- После того как вы ее сконфигурировали запускаем саму панель
+```
+python3 manage.py runserver
+```
+
 Список будет дополнятся и обновлятся

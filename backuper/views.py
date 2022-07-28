@@ -3,6 +3,7 @@ from django.http import *
 from django.shortcuts import render
 from backuper.models import *
 from backuper.utils.filemanager import *
+from backuper.utils.common import *
 from django.contrib.auth import authenticate, login, logout
 from backuper.forms import *
 import os
@@ -112,3 +113,20 @@ class Panel():
             data = vfs_upload(request.user.id, request.GET.get('id'), request.FILES.get('upload'))
             return JsonResponse(data)
 
+class Cron ():
+    def index(request):
+        key = request.GET.get('key')
+        if key == settings.CRON_KEY:
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
+    
+    def upload_file(request):
+        key = request.GET.get('key')
+        if key == settings.CRON_KEY:
+            data = cron_upload_file()
+            # remove escape characters
+
+            return JsonResponse({'status': 'ok', 'data': data})
+        else:
+            return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
