@@ -233,7 +233,7 @@ def vfs_upload(user_id, path, file):
         date=date
     )
 
-    save_file(user_id, file, name)
+    save_file(user_id, file, parent_path, name)
 
     data = {
         'value': name,
@@ -245,11 +245,15 @@ def vfs_upload(user_id, path, file):
     return data
 
 
-def save_file(user_id, upload_file, filename):
+def save_file(user_id, upload_file, parent_path, filename):
     """
     Save a file to the filesystem.
     """
-    fs.save(f"temp/filemanager/upload_temp/{user_id}/{filename}", upload_file)
+    if parent_path == '':
+        path = f"temp/filemanager/upload_temp/{user_id}/{filename}"
+    else:
+        path = f"temp/filemanager/upload_temp/{user_id}/{parent_path}/{filename}"
+    fs.save(path, upload_file)
     print(fs.url(upload_file.name))
 
 

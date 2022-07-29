@@ -1,6 +1,7 @@
 from django.conf import settings
 from backuper.utils.rclone import *
 from backuper.utils.filehosting import *
+from backuper.models import *
 import re
 import os
 import json
@@ -35,10 +36,14 @@ def cron_upload_file():
                 if file_size < free_space:
                     # remove file from temp_path:
                     remote_dir = file.split(str(temp_path))[1]
+                    remote_path_split = split_path(remote_dir)
                     # remove first data slash:
-                    remote_dir = split_path(remote_dir)[0]
+                    remote_dir = remote_path_split[0]
+                    file_name = remote_path_split[1]
                     # upload file:
-                    rclone.copy(file, remote+":backuper/"+remote_dir)
+                    #rclone.copy(file, remote+":backuper/"+remote_dir)
+                    file_id = file_id_by_path(remote_dir, file_name)
+                    add_uploaded_file(file_id, remote)
                 else:
                     print("Not enough space on remote: " + remote)
                     break
@@ -55,3 +60,20 @@ def split_path(path):
     path_req = path_request[0:split_count-1]
     path_req = '/'.join(path_req)
     return [path_req, filename_req]
+
+def file_id_by_path(path, filename):
+    """
+    Get file id by path in db
+    return: file id
+    """
+    user_id = path.split('/')[1]
+    path = path.replace(f"/{user_id}", "")
+    file = Filemanager.objects.filter(user_id=user_id, path=path, filename=filename)
+    return file[0].file_id
+
+def add_uploaded_file(file_id, hosting_name, hosting_file_id = None):
+    """
+    Add uploaded file to db
+    """
+    file = Filemanager_hosting.objects.create(file_id=file_id, hosting_name=hosting_name, hosting_file_id=hosting_file_id)
+    file.save()
