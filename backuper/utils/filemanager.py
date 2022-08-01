@@ -33,17 +33,17 @@ def vfs_folders(user_id, path):
     if path == '/':
         path = ''
     folders = Filemanager.objects.filter(user_id=user_id, path=path, type='folder')
-    data = []
-    for folder in folders:
-        data.append({
+    return [
+        {
             'value': folder.filename,
-            'id': folder.path + '/' + folder.filename,
+            'id': f'{folder.path}/{folder.filename}',
             'size': folder.size,
             'date': folder.date,
             'type': folder.type,
-            'data': vfs_folders(user_id, folder.path + '/' + folder.filename)
-        })
-    return data
+            'data': vfs_folders(user_id, f'{folder.path}/{folder.filename}'),
+        }
+        for folder in folders
+    ]
 
 
 def vfs_files(user_id, path):
@@ -53,16 +53,16 @@ def vfs_files(user_id, path):
     if path == '/':
         path = ''
     files = Filemanager.objects.filter(user_id=user_id, path=path)
-    data = []
-    for file in files:
-        data.append({
+    return [
+        {
             'value': file.filename,
             'size': file.size,
             'date': file.date,
             'type': file.type,
-            'id': file.path + '/' + file.filename
-        })
-    return data
+            'id': f'{file.path}/{file.filename}',
+        }
+        for file in files
+    ]
 
 
 def vfs_makedir(user_id, path, name):
@@ -76,7 +76,7 @@ def vfs_makedir(user_id, path, name):
             split_dir = split_path(path)
             parent_folder = Filemanager.objects.filter(user_id=user_id, path=split_dir[0], filename=split_dir[1], type='folder')
         parent_id = parent_folder[0].id
-        parent_path = parent_folder[0].path + '/' + parent_folder[0].filename
+        parent_path = f'{parent_folder[0].path}/{parent_folder[0].filename}'
     else:
         parent_id = 0
         parent_path = ''
@@ -86,7 +86,7 @@ def vfs_makedir(user_id, path, name):
     path = '' if path == '/' else path
     folder = Filemanager.objects.filter(user_id=user_id, path=path, filename__contains=name, type='folder').order_by('-filename')
     if folder.count() > 0:
-        name = "new." + folder[0].filename
+        name = f"new.{folder[0].filename}"
 
     Filemanager.objects.create(
         file_id=generate_hash(15),
@@ -98,14 +98,13 @@ def vfs_makedir(user_id, path, name):
         type='folder',
         path=parent_path
     )
-    data = {
+    return {
         'value': name,
-        'id': parent_path+'/'+name,
+        'id': f'{parent_path}/{name}',
         'size': 0,
         'date': date,
-        'type': 'folder'
+        'type': 'folder',
     }
-    return data
 
 
 def vfs_move(user_id, filename, to):
@@ -118,7 +117,7 @@ def vfs_move(user_id, filename, to):
 
     parent_folder = Filemanager.objects.filter(user_id=user_id, path=to[0], filename=to[1], type='folder')
     parent_id = parent_folder[0].id
-    parent_path = parent_folder[0].path + '/' + parent_folder[0].filename
+    parent_path = f'{parent_folder[0].path}/{parent_folder[0].filename}'
 
     file = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=filename[1])
     file_size = file[0].size
@@ -127,20 +126,19 @@ def vfs_move(user_id, filename, to):
     # check if the file already exists
     file_check = Filemanager.objects.filter(user_id=user_id, path=parent_path, filename__contains=filename[1], type=file[0].type).order_by('-filename')
     if file_check.count() > 0:
-        name = "new." + file[0].filename
+        name = f"new.{file[0].filename}"
     else:
         name = file[0].filename
 
     file.update(filename=name, parent_id=parent_id,
                 path=parent_path, date=date)
-    data = {
+    return {
         'value': name,
-        'id': parent_path+'/'+name,
+        'id': f'{parent_path}/{name}',
         'size': file_size,
         'date': date,
-        'type': file_type
+        'type': file_type,
     }
-    return data
 
 
 def vfs_rename(user_id, filename, name):
@@ -152,17 +150,12 @@ def vfs_rename(user_id, filename, name):
     # check if the file already exists
     file_check = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=name)
     if file_check.count() > 0:
-        name = "new." + file_check[0].filename
+        name = f"new.{file_check[0].filename}"
 
     file = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=filename[1])
     file_id = file[0].path
     file.update(filename=name, date=date)
-    data = {
-        "invalid": False,
-        "error": "",
-        "id": file_id+'/'+name
-    }
-    return data
+    return {"invalid": False, "error": "", "id": f'{file_id}/{name}'}
 
 
 def vfs_search(user_id, path, query, loop=False):
@@ -179,17 +172,17 @@ def vfs_search(user_id, path, query, loop=False):
     if loop:
         return folder_id
     else:
-        data = []
-        for file in file:
-            if file.path in folder_id:
-                data.append({
-                    'value': file.filename,
-                    'id': file.path + '/' + file.filename,
-                    'size': file.size,
-                    'date': file.date,
-                    'type': file.type
-                })
-        return data
+        return [
+            {
+                'value': file.filename,
+                'id': f'{file.path}/{file.filename}',
+                'size': file.size,
+                'date': file.date,
+                'type': file.type,
+            }
+            for file in file
+            if file.path in folder_id
+        ]
 
 
 def vfs_upload(user_id, path, file):
@@ -207,7 +200,7 @@ def vfs_upload(user_id, path, file):
             split_dir = split_path(path)
             parent_folder = Filemanager.objects.filter(user_id=user_id, path=split_dir[0], filename=split_dir[1], type='folder')
         parent_id = parent_folder[0].id
-        parent_path = parent_folder[0].path + '/' + parent_folder[0].filename
+        parent_path = f'{parent_folder[0].path}/{parent_folder[0].filename}'
     else:
         parent_id = 0
         parent_path = ''
@@ -219,8 +212,8 @@ def vfs_upload(user_id, path, file):
     file_check = Filemanager.objects.filter(user_id=user_id, path=path, filename__contains=name)
     if file_check.count() > 0:
         # add name new in count to avoid duplicates
-        for i in range(1, file_check.count()+1):
-            name = "new." + name
+        for _ in range(1, file_check.count()+1):
+            name = f"new.{name}"
 
     Filemanager.objects.create(
         file_id=generate_hash(15),
@@ -235,14 +228,13 @@ def vfs_upload(user_id, path, file):
 
     save_file(user_id, file, parent_path, name)
 
-    data = {
+    return {
         'value': name,
-        'id': parent_path+'/'+name,
+        'id': f'{parent_path}/{name}',
         'size': file.size,
         'date': date,
-        'type': type
+        'type': type,
     }
-    return data
 
 
 def save_file(user_id, upload_file, parent_path, filename):
@@ -261,7 +253,7 @@ def generate_hash(length):
     """
     Generate a random hash of a given length.
     """
-    return ''.join(random.choice('0123456789abcdef') for i in range(length))
+    return ''.join(random.choice('0123456789abcdef') for _ in range(length))
 
 
 def parse_content_type(type):

@@ -23,7 +23,7 @@ def cron_upload_file():
 
     for remote in remotes:
         # get free space on remote:
-        result = rclone.about(remote+":", ["--json"])
+        result = rclone.about(f"{remote}:", ["--json"])
         data = json.loads(json.dumps(json.loads(result.get('out')), ensure_ascii=False))
         free_space = data['free']
         # get all files in temp folder:
@@ -45,7 +45,7 @@ def cron_upload_file():
                     file_id = file_id_by_path(remote_dir, file_name)
                     add_uploaded_file(file_id, remote)
                 else:
-                    print("Not enough space on remote: " + remote)
+                    print(f"Not enough space on remote: {remote}")
                     break
 
 
@@ -57,7 +57,7 @@ def split_path(path):
     path_request = path.split('/')
     split_count = len(path_request)
     filename_req = path_request[split_count-1]
-    path_req = path_request[0:split_count-1]
+    path_req = path_request[:split_count-1]
     path_req = '/'.join(path_req)
     return [path_req, filename_req]
 
