@@ -26,13 +26,12 @@ def auth_login(request):
         password = request.POST.get('password')
         remember = request.POST.get('remember')
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            if remember == 'on':
-                request.session.set_expiry(60 * 60 * 24 * 7)
-            return HttpResponseRedirect('/panel/')
-        else:
+        if user is None:
             return render(request, 'user/login.html', context={'error': 'Неверный логин или пароль'})
+        login(request, user)
+        if remember == 'on':
+            request.session.set_expiry(60 * 60 * 24 * 7)
+        return HttpResponseRedirect('/panel/')
     else:
         data = {'title': 'Авторизация', 'page_name': 'login'}
         return render(request, 'user/login.html', context=data)
@@ -86,17 +85,23 @@ def panel_filemanager_icons(request, size=None, type=None, file='', format=None)
     icons_dir = os.path.join(
         settings.BASE_DIR, "static") + '/filemanager/icons'
     if size == 'small':
-        icon_file = icons_dir + '/small/' + file + '.svg'
-        # check if file exists
+        icon_file = f'{icons_dir}/small/{file}.svg'
         if os.path.isfile(icon_file):
             return HttpResponse(open(icon_file, 'rb'), content_type='image/svg+xml')
+        if type == "undefined":
+            return HttpResponse(
+                open(f'{icons_dir}/small/types/file.svg', 'rb'),
+                content_type='image/svg+xml',
+            )
+
         else:
-            if type == "undefined":
-                return HttpResponse(open(icons_dir + '/small/types/file.svg', 'rb'), content_type='image/svg+xml')
-            else:
-                return HttpResponse(open(icons_dir + '/small/types/'+type+'.svg', 'rb'), content_type='image/svg+xml')
+            return HttpResponse(
+                open(f'{icons_dir}/small/types/{type}.svg', 'rb'),
+                content_type='image/svg+xml',
+            )
+
     elif size == 'big':
-        icon_file = icons_dir + '/big/' + type + '.svg'
+        icon_file = f'{icons_dir}/big/{type}.svg'
         # check if file exists
         if os.path.isfile(icon_file):
             return HttpResponse(open(icon_file, 'rb'), content_type='image/svg+xml')
@@ -149,8 +154,7 @@ def cron_index(request):
 
 def cron_upload_file(request):
     key = request.GET.get('key')
-    if key == settings.CRON_KEY:
-        cron_upload_file()
-        return JsonResponse({'status': 'ok'})
-    else:
+    if key != settings.CRON_KEY:
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
+    cron_upload_file()
+    return JsonResponse({'status': 'ok'})

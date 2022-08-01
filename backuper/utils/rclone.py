@@ -84,9 +84,7 @@ class RClone:
         """
         command_with_args = ["rclone", command, "--config", self.cfg]
         command_with_args += extra_args
-        command_result = self._execute(command_with_args)
-
-        return command_result
+        return self._execute(command_with_args)
 
     def about(self, remote, flags=[]):
         """

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+
 from pathlib import Path
 import os
 import pymysql
@@ -22,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 # Rclone config file
-RCLONE_CONFIG = os.path.dirname(os.path.abspath(__file__))+"/rclone.conf"
+RCLONE_CONFIG = f"{os.path.dirname(os.path.abspath(__file__))}/rclone.conf"
 
 TEMP_PATH = BASE_DIR / "temp"
 
