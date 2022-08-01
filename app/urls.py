@@ -21,19 +21,19 @@ from django.views.decorators.csrf import csrf_exempt
 urlpatterns = [
     ######## General #########
     # path('', views.Home.index),
-    path('', views.Auth.login, name='login'),
+    path('', views.auth_login, name='login'),
     path('admin/', admin.site.urls),
-    path('panel/', views.Panel.index),
+    path('panel/', views.panel_index),
     ######## Filemanager #########
-    path('panel/filemanager/', views.Panel.filemanager),
-    path('panel/filemanager_backend/<slug:metod>', csrf_exempt(views.Panel.filemanager_backend)),
-    path('panel/filemanager_backend/icons/<slug:size>/<slug:type>/<slug:file>.<slug:format>', views.Panel.filemanager_icons),
-    path('panel/filemanager_backend/icons/<slug:size>/<slug:type>/.<slug:format>', views.Panel.filemanager_icons),
+    path('panel/filemanager/', views.panel_filemanager),
+    path('panel/filemanager_backend/<slug:metod>', csrf_exempt(views.panel_filemanager_backend)),
+    path('panel/filemanager_backend/icons/<slug:size>/<slug:type>/<slug:file>.<slug:format>', views.panel_filemanager_icons),
+    path('panel/filemanager_backend/icons/<slug:size>/<slug:type>/.<slug:format>', views.panel_filemanager_icons),
     ######## User Auth System ########
-    path('login/', views.Auth.login, name ='login'),
-    path('logout/', views.Auth.logout, name ='logout'),
-    path('signup/', views.Auth.signup, name ='signup'),
+    path('login/', views.auth_login, name ='login'),
+    path('logout/', views.auth_logout, name ='logout'),
+    path('signup/', views.auth_signup, name ='signup'),
     ######## CRON ########
-    path('cron/', views.Cron.index, name ='cron'),
-    path('cron/upload_file/', views.Cron.upload_file, name ='upload_file'),
+    path('cron/', views.cron_index, name ='cron'),
+    path('cron/upload_file/', views.cron_upload_file, name ='upload_file'),
 ]
