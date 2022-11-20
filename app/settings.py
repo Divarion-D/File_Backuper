@@ -13,6 +13,17 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 import app.mysettings as mysettings
 
+#import constants in mysettings.py
+BASE_DIR = mysettings.BASE_DIR
+TEMPLATE_DIR = mysettings.TEMPLATE_DIR
+TEMP_PATH = mysettings.TEMP_PATH
+DATABASES = mysettings.DATABASES
+CRON_KEY = mysettings.CRON_KEY
+FILESHARE_URL = mysettings.FILESHARE_URL
+LANGUAGE_CODE = mysettings.LANGUAGE_CODE
+TIME_ZONE = mysettings.TIME_ZONE
+USE_I18N = mysettings.USE_I18N
+USE_TZ = mysettings.USE_TZ
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
