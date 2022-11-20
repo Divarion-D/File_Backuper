@@ -10,19 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-
-from pathlib import Path
 import os
-import pymysql
+import app.mysettings as mysettings
 
-pymysql.install_as_MySQLdb()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
-
-TEMP_PATH = BASE_DIR / "temp"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -34,7 +24,6 @@ SECRET_KEY = 'django-insecure-cmjuak0zxw!h6w8!a)0_3i375js_bjo9!m*et^f@$ik2(nv0)=
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -63,7 +52,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR,],
+        'DIRS': [mysettings.TEMPLATE_DIR,],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,22 +69,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'app.wsgi.application'
-
-
-# Database conection
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'backuper',
-        'USER': 'root',
-        'PASSWORD': 'toor',
-        'HOST': 'localhost',
-        'PORT': '3306'
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -115,26 +88,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.0/topics/i18n/
-
-LANGUAGE_CODE = 'ru'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(mysettings.BASE_DIR, "static"),
 ]
 
 LOGIN_REDIRECT_URL = '/panel'
@@ -144,21 +104,3 @@ LOGOUT_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Cron
-CRON_KEY = '2Wis0oaB3hLJg4t95mM0goZRYLiBfK'
-
-#FileShare URL array
-FILESHARE_URL = [
-    'filechan.org',
-    'anonfiles.com',
-    'letsupload.cc',
-    'share-online.is',
-    'vshare.is',
-    'hotfile.io',
-    'myfile.is',
-    'megaupload.nz',
-    'upvid.cc',
-    'lolabits.se',
-    'rapidshare.nu'
-]
