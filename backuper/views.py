@@ -154,11 +154,10 @@ def panel_filemanager_backend(request, metod=None):
 ##################### Cron ####################
 def cron_index(request):
     key = request.GET.get('key')
-    if key == settings.CRON_KEY:
-        print(FileShareng.FileInfo("letsupload.cc", "R4p307I7y7"))
-        return JsonResponse({'status': 'success'})
-    else:
+    if key != settings.CRON_KEY:
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
+    print(FileShareng.FileInfo("letsupload.cc", "R4p307I7y7"))
+    return JsonResponse({'status': 'success'})
 
 
 def cron_upload_files(request):
