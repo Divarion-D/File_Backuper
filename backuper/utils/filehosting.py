@@ -5,13 +5,13 @@ from lxml import html
 
 # Sharing files with the same api
 class FileShareng:
-    def UploadFile(file_path):
+    def UploadFile(self):
         # fileneme to str
-        file_path = str(file_path)
+        self = str(self)
         data = []
         for url in settings.FILESHARE_URL:
-            file_data = {'file': open(file_path, 'rb')}
-            api_url = 'https://api.'+url+'/upload'
+            file_data = {'file': open(self, 'rb')}
+            api_url = f'https://api.{url}/upload'
             response = requests.post(api_url, files=file_data)
             if response.status_code == 200:
                 file_response_json = response.json()

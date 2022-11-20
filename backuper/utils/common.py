@@ -5,7 +5,7 @@ import os
 
 def cron_upload_file():
     temp_path = settings.TEMP_PATH / "filemanager" / "upload_temp"
-    
+
     #ccheck if file exists
     if not os.path.exists(temp_path):
         temp_path.mkdir(parents=True)
@@ -16,7 +16,7 @@ def cron_upload_file():
             file = os.path.join(path, name)
             # get file size:
             file_size = os.path.getsize(file)
-            returned = FileShareng.UploadFile(path+"/"+name)
+            returned = FileShareng.UploadFile(f"{path}/{name}")
             for hosting in returned['data']:
                 if hosting['id'] != 'false':
                     add_uploaded_file(name, hosting['url'], hosting['id'])
