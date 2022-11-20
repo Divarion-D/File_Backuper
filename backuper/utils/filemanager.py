@@ -248,8 +248,7 @@ def vfs_direct(user_id, filename, download):
     user_id = file_data[0].user_id
     file_id = file_data[0].file_id
     file_name = file_data[0].filename
-    file = download_file(user_id, file_id, file_name)
-    return file
+    return download_file(user_id, file_id, file_name)
 
 
 def save_file(upload_file, file_id):
@@ -265,8 +264,9 @@ def download_file(user_id, file_id, file_name):
         hosting_name = file.hosting_name
         hosting_id = file.hosting_file_id
         if FileShareng.FileInfo(hosting_name, hosting_id) == True:
-            file = FileShareng.DownloadFile(user_id, f"http://{hosting_name}/{hosting_id}", file_name)
-            return file
+            return FileShareng.DownloadFile(
+                user_id, f"http://{hosting_name}/{hosting_id}", file_name
+            )
 
 def generate_hash(length):
     """
