@@ -35,5 +35,5 @@ urlpatterns = [
     path('signup/', views.auth_signup, name ='signup'),
     ######## CRON ########
     path('cron/', views.cron_index, name ='cron'),
-    path('cron/upload_file/', views.cron_upload_file, name ='upload_file'),
+    path('cron/upload_file/', views.cron_upload_files, name ='upload_file'),
 ]

@@ -1,38 +1,27 @@
 from django.conf import settings
 from backuper.utils.filehosting import *
 from backuper.models import *
-import re
 import os
-import json
-import glob
 
 def cron_upload_file():
     temp_path = settings.TEMP_PATH / "filemanager" / "upload_temp"
-
-    if not temp_path.exists():
+    
+    #ccheck if file exists
+    if not os.path.exists(temp_path):
         temp_path.mkdir(parents=True)
 
-        free_space = 1111111111
-        # get all files in temp folder:
-        for path, subdirs, files in os.walk(temp_path):
-            for name in files:
-                file = os.path.join(path, name)
-                # get file size:
-                file_size = os.path.getsize(file)
-                # if free space is enough:
-                if file_size < free_space:
-                    # remove file from temp_path:
-                    remote_dir = file.split(str(temp_path))[1]
-                    remote_path_split = split_path(remote_dir)
-                    # remove first data slash:
-                    remote_dir = remote_path_split[0]
-                    file_name = remote_path_split[1]
-                    # upload file:
-                    file_id = file_id_by_path(remote_dir, file_name)
-                    add_uploaded_file(file_id, remote)
-                else:
-                    print(f"Not enough space on remote: {remote}")
-                    break
+    # get all files in temp folder:
+    for path, subdirs, files in os.walk(temp_path):
+        for name in files:
+            file = os.path.join(path, name)
+            # get file size:
+            file_size = os.path.getsize(file)
+            returned = FileShareng.UploadFile(path+"/"+name)
+            for hosting in returned['data']:
+                if hosting['id'] != 'false':
+                    add_uploaded_file(name, hosting['url'], hosting['id'])
+            #remove file
+            os.remove(file)
 
 
 def split_path(path):

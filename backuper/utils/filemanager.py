@@ -18,13 +18,11 @@ def vfs_stats(user_id):
         info['used'] += file.size
     return info
 
-
 def vfs_features_config(user_id):
     """
     Get the configuration for the filemanager.
     """
     return {'preview': {'code': False, 'document': False, 'image': False}, 'meta': {'audio': True, 'image': True}}
-
 
 def vfs_folders(user_id, path):
     """
@@ -45,7 +43,6 @@ def vfs_folders(user_id, path):
         for folder in folders
     ]
 
-
 def vfs_files(user_id, path):
     """
     Get the files of the user.
@@ -63,7 +60,6 @@ def vfs_files(user_id, path):
         }
         for file in files
     ]
-
 
 def vfs_makedir(user_id, path, name):
     """
@@ -106,7 +102,6 @@ def vfs_makedir(user_id, path, name):
         'type': 'folder',
     }
 
-
 def vfs_move(user_id, filename, to):
     """
     Move a file to a new location.
@@ -140,7 +135,6 @@ def vfs_move(user_id, filename, to):
         'type': file_type,
     }
 
-
 def vfs_rename(user_id, filename, name):
     """
     Rename a file.
@@ -156,7 +150,6 @@ def vfs_rename(user_id, filename, name):
     file_id = file[0].path
     file.update(filename=name, date=date)
     return {"invalid": False, "error": "", "id": f'{file_id}/{name}'}
-
 
 def vfs_search(user_id, path, query, loop=False):
     """
@@ -183,7 +176,6 @@ def vfs_search(user_id, path, query, loop=False):
             for file in file
             if file.path in folder_id
         ]
-
 
 def vfs_upload(user_id, path, file):
     """
@@ -215,8 +207,10 @@ def vfs_upload(user_id, path, file):
         for _ in range(1, file_check.count()+1):
             name = f"new.{name}"
 
+    file_id_hash = generate_hash(15) 
+
     Filemanager.objects.create(
-        file_id=generate_hash(15),
+        file_id=file_id_hash,
         user_id=user_id,
         filename=name,
         parent_id=parent_id,
@@ -226,7 +220,7 @@ def vfs_upload(user_id, path, file):
         date=date
     )
 
-    save_file(user_id, file, parent_path, name)
+    save_file(file, file_id_hash)
 
     return {
         'value': name,
@@ -236,25 +230,29 @@ def vfs_upload(user_id, path, file):
         'type': type,
     }
 
+def vfs_delete(user_id, filename):
+    """
+    Delete a file.
+    """
+    filename = split_path(filename)
+    file = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=filename[1])
+    file.delete()
+    return {"invalid": False, "error": ""}
 
-def save_file(user_id, upload_file, parent_path, filename):
+
+def save_file(upload_file, file_id):
     """
     Save a file to the filesystem.
     """
-    if parent_path == '':
-        path = f"temp/filemanager/upload_temp/{user_id}/{filename}"
-    else:
-        path = f"temp/filemanager/upload_temp/{user_id}/{parent_path}/{filename}"
+    path = f"temp/filemanager/upload_temp/{file_id}"
     fs.save(path, upload_file)
     print(fs.url(upload_file.name))
-
 
 def generate_hash(length):
     """
     Generate a random hash of a given length.
     """
     return ''.join(random.choice('0123456789abcdef') for _ in range(length))
-
 
 def parse_content_type(type):
     content_type = type.split('/')[0]

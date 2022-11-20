@@ -3,7 +3,6 @@ from django.http import *
 from django.shortcuts import render
 from backuper.models import *
 from backuper.utils.filemanager import *
-from backuper.utils.filehosting import *
 from backuper.utils.common import *
 from django.contrib.auth import authenticate, login, logout
 from backuper.forms import *
@@ -94,13 +93,11 @@ def panel_filemanager_icons(request, size=None, type=None, file='', format=None)
                 open(f'{icons_dir}/small/types/file.svg', 'rb'),
                 content_type='image/svg+xml',
             )
-
         else:
             return HttpResponse(
                 open(f'{icons_dir}/small/types/{type}.svg', 'rb'),
                 content_type='image/svg+xml',
             )
-
     elif size == 'big':
         icon_file = f'{icons_dir}/big/{type}.svg'
         # check if file exists
@@ -142,19 +139,21 @@ def panel_filemanager_backend(request, metod=None):
         data = vfs_upload(request.user.id, request.GET.get(
             'id'), request.FILES.get('upload'))
         return JsonResponse(data)
-
+    elif metod == 'delete':
+        data = vfs_delete(request.user.id, request.POST.get(
+            'id'))
+        return JsonResponse(data)
 
 ##################### Cron ####################
 def cron_index(request):
     key = request.GET.get('key')
     if key == settings.CRON_KEY:
-        returned = FileShareng.UploadFile(settings.TEMP_PATH / 'filemanager' / 'upload_temp' / '1' / '123.png')
-        return JsonResponse({'status': 'ok', 'returned': returned})
+        return JsonResponse({'status': 'ok'})
     else:
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
 
 
-def cron_upload_file(request):
+def cron_upload_files(request):
     key = request.GET.get('key')
     if key != settings.CRON_KEY:
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
