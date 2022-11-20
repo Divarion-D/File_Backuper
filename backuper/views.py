@@ -143,12 +143,20 @@ def panel_filemanager_backend(request, metod=None):
         data = vfs_delete(request.user.id, request.POST.get(
             'id'))
         return JsonResponse(data)
+    elif metod == 'direct':
+        data = vfs_direct(request.user.id, request.GET.get(
+            'id'), request.GET.get('download'))
+        # return media file
+        if data['status'] == 'success':
+            return FileResponse(open(data['data']['file'], 'rb'))
 
+    
 ##################### Cron ####################
 def cron_index(request):
     key = request.GET.get('key')
     if key == settings.CRON_KEY:
-        return JsonResponse({'status': 'ok'})
+        print(FileShareng.FileInfo("letsupload.cc", "R4p307I7y7"))
+        return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
 
@@ -158,4 +166,4 @@ def cron_upload_files(request):
     if key != settings.CRON_KEY:
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
     cron_upload_file()
-    return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'success'})

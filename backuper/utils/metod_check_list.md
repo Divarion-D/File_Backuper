@@ -11,7 +11,7 @@
 - [x] move()
 - [ ] preview()
 - [ ] text() // Не нужен из за особеностей приложения
-- [ ] delete()
+- [x] delete()
 - [x] rename()
 - [x] search()
 - [x] upload()

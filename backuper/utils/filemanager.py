@@ -239,6 +239,18 @@ def vfs_delete(user_id, filename):
     file.delete()
     return {"invalid": False, "error": ""}
 
+def vfs_direct(user_id, filename, download):
+    """
+    Return the direct link to a file.
+    """
+    filename = split_path(filename)
+    file_data = Filemanager.objects.filter(user_id=user_id, path=filename[0], filename=filename[1])
+    user_id = file_data[0].user_id
+    file_id = file_data[0].file_id
+    file_name = file_data[0].filename
+    file = download_file(user_id, file_id, file_name)
+    return file
+
 
 def save_file(upload_file, file_id):
     """
@@ -246,7 +258,15 @@ def save_file(upload_file, file_id):
     """
     path = f"temp/filemanager/upload_temp/{file_id}"
     fs.save(path, upload_file)
-    print(fs.url(upload_file.name))
+
+def download_file(user_id, file_id, file_name):
+    fileshare = Filemanager_hosting.objects.filter(file_id=file_id)
+    for file in fileshare:
+        hosting_name = file.hosting_name
+        hosting_id = file.hosting_file_id
+        if FileShareng.FileInfo(hosting_name, hosting_id) == True:
+            file = FileShareng.DownloadFile(user_id, f"http://{hosting_name}/{hosting_id}", file_name)
+            return file
 
 def generate_hash(length):
     """
