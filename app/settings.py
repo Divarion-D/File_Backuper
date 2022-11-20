@@ -22,9 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
-# Rclone config file
-RCLONE_CONFIG = f"{os.path.dirname(os.path.abspath(__file__))}/rclone.conf"
-
 TEMP_PATH = BASE_DIR / "temp"
 
 # Quick-start development settings - unsuitable for production
@@ -97,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'backuper',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'toor',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -154,3 +151,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Cron
 CRON_KEY = '2Wis0oaB3hLJg4t95mM0goZRYLiBfK'
+
+#FileShare URL array
+FILESHARE_URL = [
+    'filechan.org',
+    'anonfiles.com',
+    'letsupload.cc',
+    'share-online.is',
+    'vshare.is',
+    'hotfile.io',
+    'myfile.is',
+    'megaupload.nz',
+    'upvid.cc',
+    'lolabits.se',
+    'rapidshare.nu'
+]

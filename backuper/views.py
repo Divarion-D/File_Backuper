@@ -3,6 +3,7 @@ from django.http import *
 from django.shortcuts import render
 from backuper.models import *
 from backuper.utils.filemanager import *
+from backuper.utils.filehosting import *
 from backuper.utils.common import *
 from django.contrib.auth import authenticate, login, logout
 from backuper.forms import *
@@ -147,7 +148,8 @@ def panel_filemanager_backend(request, metod=None):
 def cron_index(request):
     key = request.GET.get('key')
     if key == settings.CRON_KEY:
-        return JsonResponse({'status': 'ok'})
+        returned = FileShareng.UploadFile(settings.TEMP_PATH / 'filemanager' / 'upload_temp' / '1' / '123.png')
+        return JsonResponse({'status': 'ok', 'returned': returned})
     else:
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
 

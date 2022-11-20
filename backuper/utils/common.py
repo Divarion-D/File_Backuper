@@ -1,5 +1,4 @@
 from django.conf import settings
-from backuper.utils.rclone import *
 from backuper.utils.filehosting import *
 from backuper.models import *
 import re
@@ -7,25 +6,13 @@ import os
 import json
 import glob
 
-config_path = settings.RCLONE_CONFIG
-rclone = RClone(cfg_path=config_path)
-
 def cron_upload_file():
     temp_path = settings.TEMP_PATH / "filemanager" / "upload_temp"
 
     if not temp_path.exists():
         temp_path.mkdir(parents=True)
 
-    # get all name of remote from config file
-    with open(config_path) as f:
-        config = f.read()
-    remotes = re.findall(r'\[(.*?)\]', config)
-
-    for remote in remotes:
-        # get free space on remote:
-        result = rclone.about(f"{remote}:", ["--json"])
-        data = json.loads(json.dumps(json.loads(result.get('out')), ensure_ascii=False))
-        free_space = data['free']
+        free_space = 1111111111
         # get all files in temp folder:
         for path, subdirs, files in os.walk(temp_path):
             for name in files:
@@ -41,7 +28,6 @@ def cron_upload_file():
                     remote_dir = remote_path_split[0]
                     file_name = remote_path_split[1]
                     # upload file:
-                    #rclone.copy(file, remote+":backuper/"+remote_dir)
                     file_id = file_id_by_path(remote_dir, file_name)
                     add_uploaded_file(file_id, remote)
                 else:

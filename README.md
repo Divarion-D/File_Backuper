@@ -28,12 +28,6 @@ cd File_Backuper
 ```
 pip3 install -r requirements.txt
 ```
-- Нужно установить rclone (https://rclone.org/install/)
-- После чего для его конфигурирования запускаем команду:
-```
-python3 rclone_configure.py
-```
-- И добавляем доступные вам файловые хранилища(https://rclone.org/docs/)
 - После если нужно редактируем настройки панели 
 ```
 nano app/settings.py
