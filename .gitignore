@@ -1,3 +1,4 @@
 __pycache__
 temp
 app/mysettings.py
+app/settings.py

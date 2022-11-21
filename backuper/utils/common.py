@@ -2,6 +2,7 @@ from django.conf import settings
 from backuper.utils.filehosting import *
 from backuper.models import *
 import os
+import random
 
 def cron_upload_file():
     temp_path = settings.TEMP_PATH / "filemanager" / "upload_temp"
@@ -52,3 +53,9 @@ def add_uploaded_file(file_id, hosting_name, hosting_file_id = None):
     """
     file = Filemanager_hosting.objects.create(file_id=file_id, hosting_name=hosting_name, hosting_file_id=hosting_file_id)
     file.save()
+
+def generate_hash(length):
+    """
+    Generate a random hash of a given length.
+    """
+    return ''.join(random.choice('0123456789abcdef') for _ in range(length))

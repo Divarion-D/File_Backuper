@@ -19,6 +19,9 @@
 
 Список будет дополнятся и обновлятся
 
+## Ограничения
+- Максимальный размер файла 20Гб
+
 ## Запуск
 - Клонируем репозиторий
 ```
@@ -29,11 +32,10 @@ cd File_Backuper
 ```
 pip3 install -r requirements.txt
 ```
-- После если нужно редактируем настройки панели 
+- После запускаем configure_app.py 
 ```
-nano app/settings.py
+python3 configure_app.py
 ```
-- Вам нужно настроить Database conection, LANGUAGE_CODE и CRON_KEY
 - Потом нужно выполнить один раз команду
 ```
 python3 manage.py migrate

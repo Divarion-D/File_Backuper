@@ -1,4 +1,3 @@
-import random
 import time
 
 from backuper.models import *
@@ -268,11 +267,6 @@ def download_file(user_id, file_id, file_name):
                 user_id, f"http://{hosting_name}/{hosting_id}", file_name
             )
 
-def generate_hash(length):
-    """
-    Generate a random hash of a given length.
-    """
-    return ''.join(random.choice('0123456789abcdef') for _ in range(length))
 
 def parse_content_type(type):
     content_type = type.split('/')[0]
