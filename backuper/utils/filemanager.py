@@ -262,8 +262,8 @@ def download_file(user_id, file_id, file_name):
     for file in fileshare:
         hosting_name = file.hosting_name
         hosting_id = file.hosting_file_id
-        if FileShareng.FileInfo(hosting_name, hosting_id) == True:
-            return FileShareng.DownloadFile(
+        if FileInfo(hosting_name, hosting_id) == True:
+            return DownloadFile.delay(
                 user_id, f"http://{hosting_name}/{hosting_id}", file_name
             )
 

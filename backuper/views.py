@@ -147,16 +147,28 @@ def panel_filemanager_backend(request, metod=None):
         data = vfs_direct(request.user.id, request.GET.get(
             'id'), request.GET.get('download'))
         # return media file
-        if data['status'] == 'success':
-            return FileResponse(open(data['data']['file'], 'rb'))
+        if request.method == 'POST':
+            # Create Task
+            download_task = data
+            # Get ID
+            task_id = download_task.task_id
+            # Print Task ID
+            print(f'Celery Task ID: {task_id}')
+            # Return demo view with Task ID
+            return render(request, 'panel/filedownload.html', {'task_id': task_id})
+        else:
+            # Return demo view
+            return render(request, 'panel/filedownload.html', {})
+            #return FileResponse(open(data['data']['file'], 'rb'))
 
     
 ##################### Cron ####################
 def cron_index(request):
+
     key = request.GET.get('key')
     if key != settings.CRON_KEY:
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
-    print(FileShareng.FileInfo("letsupload.cc", "R4p307I7y7"))
+    print(FileInfo("letsupload.cc", "R4p307I7y7"))
     return JsonResponse({'status': 'success'})
 
 

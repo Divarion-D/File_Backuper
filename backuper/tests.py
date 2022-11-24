@@ -13,7 +13,7 @@ class FileShareTestCase(TestCase):
     #     with open(file_name, 'w') as f:
     #         f.write('test')
     #     # upload file
-    #     data = FileShareng.UploadFile(file_name)
+    #     data = UploadFile(file_name)
     #     # remove file
     #     os.remove(file_name)
     #     # check if file was uploaded

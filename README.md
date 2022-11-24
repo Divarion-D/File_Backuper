@@ -22,6 +22,39 @@
 ## Ограничения
 - Максимальный размер файла 20Гб
 
+# test
+```
+apt install redis-server
+pip3 install redis
+pip3 install celery-progress
+pip3 install celery
+```
+create config file 6379.conf
+
+paste this:
+```
+port              6379
+daemonize         yes
+save              60 1
+bind              127.0.0.1
+tcp-keepalive     300
+dir               /home/daliman/redis/
+dbfilename        dump.rdb
+rdbcompression    yes
+pidfile           redis.pid
+loglevel          notice
+logfile           "redis.log"
+```
+run redis server
+```
+redis-server /home/daliman/redis/6379.conf 
+```
+
+run celery worker
+```
+celery -A app worker --loglevel=info
+
+
 ## Запуск
 - Клонируем репозиторий
 ```

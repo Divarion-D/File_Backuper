@@ -17,7 +17,7 @@ def cron_upload_file():
             file = os.path.join(path, name)
             # get file size:
             file_size = os.path.getsize(file)
-            returned = FileShareng.UploadFile(f"{path}/{name}")
+            returned = UploadFile(f"{path}/{name}")
             for hosting in returned['data']:
                 if hosting['id'] != 'false':
                     add_uploaded_file(name, hosting['url'], hosting['id'])
