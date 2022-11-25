@@ -54,11 +54,10 @@ with open(setting_file, "r") as file:
         with open(setting_file, "w") as file:
             file.writelines(lines)
     # set database type
-    if db == '2':
-        if lines.index("USE_DB = 'sqlite3'\n") != -1:
-            lines[lines.index("USE_DB = 'sqlite3'\n")] = f"USE_DB = 'mysql'\n"
-            with open(setting_file, "w") as file:
-                file.writelines(lines)
+    if db == '2' and lines.index("USE_DB = 'sqlite3'\n") != -1:
+        lines[lines.index("USE_DB = 'sqlite3'\n")] = f"USE_DB = 'mysql'\n"
+        with open(setting_file, "w") as file:
+            file.writelines(lines)
     # set cron key
     if lines.index("CRON_KEY = ''\n") != -1:
         lines[lines.index(
