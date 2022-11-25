@@ -144,22 +144,17 @@ def panel_filemanager_backend(request, metod=None):
             'id'))
         return JsonResponse(data)
     elif metod == 'direct':
-        data = vfs_direct(request.user.id, request.GET.get(
-            'id'), request.GET.get('download'))
-        # return media file
         if request.method == 'POST':
-            # Create Task
-            download_task = data
-            # Get ID
-            task_id = download_task.task_id
+            file_path = Download_task.objects.filter(task=request.POST.get('task_id'))
+            return FileResponse(open(file_path[0].file_path, 'rb'))
+        else:
+            data = vfs_direct(request.user.id, request.GET.get(
+                'id'), request.GET.get('download'))
+            task_id = data['data']['task_id']
             # Print Task ID
             print(f'Celery Task ID: {task_id}')
             # Return demo view with Task ID
             return render(request, 'panel/filedownload.html', {'task_id': task_id})
-        else:
-            # Return demo view
-            return render(request, 'panel/filedownload.html', {})
-            #return FileResponse(open(data['data']['file'], 'rb'))
 
     
 ##################### Cron ####################

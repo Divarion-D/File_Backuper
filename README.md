@@ -46,6 +46,7 @@ loglevel          notice
 logfile           "redis.log"
 ```
 run redis server
+
 ```
 redis-server /home/daliman/redis/6379.conf 
 ```
@@ -53,7 +54,7 @@ redis-server /home/daliman/redis/6379.conf
 run celery worker
 ```
 celery -A app worker --loglevel=info
-
+```
 
 ## Запуск
 - Клонируем репозиторий

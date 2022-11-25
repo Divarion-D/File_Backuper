@@ -16,3 +16,9 @@ class Filemanager_hosting(models.Model):
     file_id = models.CharField(max_length=255)
     hosting_name = models.CharField(max_length=255)
     hosting_file_id = models.CharField(max_length=255, null=True)
+
+class Download_task(models.Model):
+    task = models.CharField(max_length=255)
+    user_id = models.IntegerField()
+    file_path = models.CharField(max_length=255)
+    data_created = models.IntegerField()

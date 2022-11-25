@@ -34,4 +34,14 @@ class Migration(migrations.Migration):
                 ('hosting_file_id', models.CharField(max_length=255, null=True)),
             ],
         ),
+        migrations.CreateModel(
+            name='Download_task',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('task', models.CharField(max_length=255)),
+                ('user_id', models.IntegerField()),
+                ('file_path', models.CharField(max_length=255)),
+                ('data_created', models.IntegerField()),
+            ],
+        ),
     ]

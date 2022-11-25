@@ -3,6 +3,7 @@ import time
 from backuper.models import *
 from backuper.utils.common import *
 from django.core.files.storage import FileSystemStorage
+from backuper.utils.filehosting import *
 
 fs = FileSystemStorage()
 
@@ -263,9 +264,9 @@ def download_file(user_id, file_id, file_name):
         hosting_name = file.hosting_name
         hosting_id = file.hosting_file_id
         if FileInfo(hosting_name, hosting_id) == True:
-            return DownloadFile.delay(
+            return DownloadFile(
                 user_id, f"http://{hosting_name}/{hosting_id}", file_name
-            )
+            )        
 
 
 def parse_content_type(type):
