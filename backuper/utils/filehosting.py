@@ -49,7 +49,7 @@ def DownloadFileTask(self, file_url, path_tmp, file_name, user_id):
     progress_recorder = ProgressRecorder(self)
     print('Start')
     with open(f'{path_tmp}/{file_name}', 'wb') as f:
-        print("Downloading %s" % file_name)
+        print(f"Downloading {file_name}")
         response = requests.get(file_url, stream=True)
         total_length = response.headers.get('content-length')
 
@@ -63,7 +63,7 @@ def DownloadFileTask(self, file_url, path_tmp, file_name, user_id):
                 f.write(data)
                 # print file download percentage
                 progres = round(dl/total_length*100, 2)
-                progres_description = 'Downloading (' + str(progres) + '%)'
+                progres_description = f'Downloading ({str(progres)}%)'
                 print(progres_description)
                 progress_recorder.set_progress(
                     progres, 100, description=progres_description)
