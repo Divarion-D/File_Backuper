@@ -1,5 +1,6 @@
 from django.conf import settings
 from backuper.models import *
+from backuper.utils.common import *
 import requests
 import os
 import time
@@ -7,25 +8,20 @@ from lxml import html
 from celery import shared_task
 from celery_progress.backend import ProgressRecorder
 
-
-def UploadFile(self):
+def UploadFile(self, name, url):
     # fileneme to str
     self = str(self)
-    data = []
-    for url in settings.FILESHARE_URL:
-        file_data = {'file': open(self, 'rb')}
-        api_url = f'https://api.{url}/upload'
-        response = requests.post(api_url, files=file_data)
-        if response.json()['status'] == True:
-            file_response_json = response.json()
-            data_return = file_response_json['data']['file']['metadata']['id']
-            # close connection
-            response.close()
-        else:
-            data_return = 'false'
-        data.append({'url': url, 'id': data_return})
-    return {'status': 'success', 'data': data}
-
+    file_data = {'file': open(self, 'rb')}
+    api_url = f'https://api.{url}/upload'
+    response = requests.post(api_url, files=file_data)
+    if response.json()['status'] == True:
+        file_response_json = response.json()
+        data_return = file_response_json['data']['file']['metadata']['id']
+        # close connection
+        response.close()
+        Filemanager_hosting.objects.create(file_id=name, hosting_name=url, hosting_file_id=data_return).save()
+        print(f"File uploaded to {url} with id: {data_return}")
+    
 
 def DownloadFile(user_id, file_url, file_name):
     link = str.replace(file_url, "\n", "")

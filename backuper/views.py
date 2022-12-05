@@ -68,7 +68,11 @@ def auth_logout(request):
 def panel_index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/login/')
-    data = {'title': 'Главная страница', 'page_name': 'dashboard'}
+    data = {
+        'title': 'Главная страница',
+        'page_name': 'dashboard',
+        'files': len(Filemanager.objects.filter(type="file").all())
+    }
     return render(request, 'panel/index.html', context=data)
 
 

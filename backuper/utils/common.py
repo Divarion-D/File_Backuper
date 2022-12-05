@@ -3,6 +3,7 @@ from backuper.utils.filehosting import *
 from backuper.models import *
 import os
 import random
+import threading
 
 def cron_upload_file():
     temp_path = settings.TEMP_PATH / "filemanager" / "upload_temp"
@@ -17,12 +18,10 @@ def cron_upload_file():
             file = os.path.join(path, name)
             # get file size:
             file_size = os.path.getsize(file)
-            returned = UploadFile(f"{path}/{name}")
-            for hosting in returned['data']:
-                if hosting['id'] != 'false':
-                    add_uploaded_file(name, hosting['url'], hosting['id'])
+            for url in settings.FILESHARE_URL:
+                thread = threading.Thread(target=UploadFile, args = [file, name, url], name=f"{name}_{url}").start()
             #remove file
-            os.remove(file)
+            #os.remove(file)
 
 def cron_cleartmp():
     Download_task.objects.filter(data_created__lte=int(time.time()) - 86400).delete()
@@ -57,13 +56,6 @@ def file_id_by_path(path, filename):
     path = path.replace(f"/{user_id}", "")
     file = Filemanager.objects.filter(user_id=user_id, path=path, filename=filename)
     return file[0].file_id
-
-def add_uploaded_file(file_id, hosting_name, hosting_file_id = None):
-    """
-    Add uploaded file to db
-    """
-    file = Filemanager_hosting.objects.create(file_id=file_id, hosting_name=hosting_name, hosting_file_id=hosting_file_id)
-    file.save()
 
 def generate_hash(length):
     """
