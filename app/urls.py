@@ -36,6 +36,7 @@ urlpatterns = [
     ######## CRON ########
     path('cron/', views.cron_index, name ='cron'),
     path('cron/upload_file/', views.cron_upload_files, name ='upload_file'),
+    path('cron/clear/', views.cron_clear, name ='clear'),
 
     ######## Celery ########
     re_path(r'^celery-progress/', include('celery_progress.urls')),  # the endpoint is configurable    

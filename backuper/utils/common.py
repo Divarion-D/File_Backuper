@@ -24,6 +24,17 @@ def cron_upload_file():
             #remove file
             os.remove(file)
 
+def cron_cleartmp():
+    Download_task.objects.filter(data_created__lte=int(time.time()) - 86400).delete()
+    path_arr = []
+    for path, subdirs, files in os.walk(settings.TEMP_PATH / "filemanager" / "download_temp"):
+        for name in files:
+            path_arr.append(os.path.join(path, name))
+    for file in path_arr:
+        file_temp = Download_task.objects.filter(file_path=file)
+        if not file_temp:
+            os.remove(file)
+            
 
 def split_path(path):
     """

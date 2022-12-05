@@ -94,7 +94,7 @@ Glyphs list
 }
 
 .manager_fmanager_cards {
-  background-color: #ebedf0;
+  background-color: #dddddd;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles {
   padding: 0;
@@ -106,7 +106,7 @@ Glyphs list
   border-color: #28b263;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles.manager_drag_over {
-  background-color: #f4f5f9;
+  background-color: #393939;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles.manager_drag_over.manager_selected {
   background-color: #191919;
@@ -156,7 +156,7 @@ Glyphs list
 .manager_fmanager_card_name {
   display: inline-block;
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: bold;
   width: 155px;
   height: 29px;
   line-height: 30px;
@@ -182,7 +182,7 @@ Glyphs list
   font-size: 20px;
 }
 .manager_fmanager_menu_icon:hover {
-  background-color: #ebedf0;
+  background-color: #dddddd;
 }
 
 .file_name_text {
@@ -225,13 +225,9 @@ Glyphs list
 .manager_fmanager_info_tab .manager_item_tab.manager_selected {
   cursor: default;
 }
-.manager_fmanager_info_tab .manager_item_tab.manager_selected:focus {
-  box-shadow: inset 0 -2px #cd00cc;
-  color: #cd00cc;
-}
 
 .manager_fmanager_preview_info.extra {
-  border-color: #ebedf0 transparent transparent;
+  border-color: #dddddd transparent transparent;
 }
 .manager_fmanager_preview_info .manager_template {
   padding: 0;
@@ -239,7 +235,7 @@ Glyphs list
 .manager_fmanager_preview_info .key_col {
   float: left;
   width: 40%;
-  font-weight: 500;
+  font-weight: bold;
   text-align: right;
 }
 .manager_fmanager_preview_info .value_col {
@@ -270,7 +266,7 @@ Glyphs list
 
 .manager_fmanager_info_title {
   color: #ffffff;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 /* plyr player style */
@@ -356,10 +352,10 @@ Glyphs list
 
 .manager_fmanager_tree .manager_tree_item.manager_selected .manager_icon,
 .manager_fmanager_tree .manager_tree_item .manager_icon {
-  color: #ccc;
+  color: #cccccc;
   padding: 0 2px 0 0;
   font-size: 20px;
-  vertical-align: top;
+  vertical-align: text-bottom;
 }
 
 .manager_fmanager_fsstats .manager_template {
@@ -374,7 +370,7 @@ Glyphs list
 .manager_fmanager_filelist .manager_dtable_colrow {
   cursor: pointer;
   background-color: #191919;
-  border-bottom: 1px solid #edeff0;
+  border-bottom: 1px solid #818181;
 }
 .manager_fmanager_filelist .manager_dtable_colrow.manager_selected .manager_fmanager_back_icon {
   position: relative;
@@ -405,7 +401,7 @@ Glyphs list
 .manager_fmanager_filelist .wxi-folder {
   position: relative;
   top: 2px;
-  color: #ccc;
+  color: #cccccc;
   font-size: 22px;
   margin-right: 10px;
 }
@@ -417,8 +413,8 @@ Glyphs list
 
 .manager_fmanager_grid_drag_zone_list {
   padding: 4px 8px;
-  border: 1px solid #edeff0;
-  font-weight: 500;
+  border: 1px solid #818181;
+  font-weight: bold;
 }
 
 .manager_fmanager_inner_drag_zone_list {
@@ -436,7 +432,7 @@ Glyphs list
 .manager_fmanager_inner_drag_zone_list .wxi-folder {
   position: relative;
   top: 2px;
-  color: #ccc;
+  color: #cccccc;
   font-size: 22px;
   margin-right: 10px;
 }
@@ -491,7 +487,7 @@ Glyphs list
 }
 
 .manager_fmanager_progress_counter {
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .manager_fmanager_progress_name {
@@ -548,7 +544,7 @@ Glyphs list
   color: inherit;
 }
 .manager_fmanager_editor_tab.manager_item_tab.manager_selected .manager_icon.fmi-circle:hover:before {
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   content: "";
   /* close */
 }
@@ -590,8 +586,9 @@ Glyphs list
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 300;
   padding: 0;
+  line-height: 38px;
+  font-size: 17px;
 }
 
 .manager_fmanager_path_chunk:hover {
@@ -635,7 +632,7 @@ Glyphs list
   margin-bottom: 10px;
 }
 .manager_fmanager_confirm .manager_popup_text .item {
-  font-weight: 500;
+  font-weight: bold;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -655,12 +652,6 @@ Glyphs list
   color: #e2e2a7;
 }
 
-.manager_fmanager_cards,
-.manager_fmanager_menu_icon:hover,
-.manager_fmanager_cards .manager_dataview_item.tiles.manager_drag_over {
-  background-color: #393939;
-}
-
 .manager_fmanager_prompt_input input:focus {
   border-bottom-color: #ffffff;
 }
@@ -671,8 +662,6 @@ Glyphs list
 }
 
 .manager_fmanager_info_tab .manager_item_tab.manager_selected:focus {
-  box-shadow: inset 0 -2px transparent;
-  color: #ffffff;
   text-decoration: none;
 }
 
@@ -699,4 +688,8 @@ Glyphs list
 
 .manager_fmanager_editor_tabs .manager_after_all_tabs {
   border-right-color: transparent;
+}
+
+.manager_fmanager_path .manager_template {
+  background-color: #191919;
 }

@@ -225,10 +225,6 @@ Glyphs list
 .manager_fmanager_info_tab .manager_item_tab.manager_selected {
   cursor: default;
 }
-.manager_fmanager_info_tab .manager_item_tab.manager_selected:focus {
-  box-shadow: inset 0 -2px #1ca1c1;
-  color: #1ca1c1;
-}
 
 .manager_fmanager_preview_info.extra {
   border-color: #ebedf0 transparent transparent;
@@ -356,10 +352,10 @@ Glyphs list
 
 .manager_fmanager_tree .manager_tree_item.manager_selected .manager_icon,
 .manager_fmanager_tree .manager_tree_item .manager_icon {
-  color: #ccc;
+  color: #94a1b3;
   padding: 0 2px 0 0;
   font-size: 21px;
-  vertical-align: top;
+  vertical-align: text-bottom;
 }
 
 .manager_fmanager_fsstats .manager_template {
@@ -374,7 +370,7 @@ Glyphs list
 .manager_fmanager_filelist .manager_dtable_colrow {
   cursor: pointer;
   background-color: #ffffff;
-  border-bottom: 1px solid #edeff0;
+  border-bottom: 1px solid #ccd7e6;
 }
 .manager_fmanager_filelist .manager_dtable_colrow.manager_selected .manager_fmanager_back_icon {
   position: relative;
@@ -405,7 +401,7 @@ Glyphs list
 .manager_fmanager_filelist .wxi-folder {
   position: relative;
   top: 2px;
-  color: #ccc;
+  color: #94a1b3;
   font-size: 23px;
   margin-right: 10px;
 }
@@ -417,7 +413,7 @@ Glyphs list
 
 .manager_fmanager_grid_drag_zone_list {
   padding: 4px 8px;
-  border: 1px solid #edeff0;
+  border: 1px solid #ccd7e6;
   font-weight: 500;
 }
 
@@ -436,7 +432,7 @@ Glyphs list
 .manager_fmanager_inner_drag_zone_list .wxi-folder {
   position: relative;
   top: 2px;
-  color: #ccc;
+  color: #94a1b3;
   font-size: 23px;
   margin-right: 10px;
 }
@@ -548,7 +544,7 @@ Glyphs list
   color: inherit;
 }
 .manager_fmanager_editor_tab.manager_item_tab.manager_selected .manager_icon.fmi-circle:hover:before {
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   content: "";
   /* close */
 }
@@ -590,8 +586,9 @@ Glyphs list
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 300;
   padding: 0;
+  line-height: 38px;
+  font-size: 16px;
 }
 
 .manager_fmanager_path_chunk:hover {
@@ -671,6 +668,11 @@ Glyphs list
 }
 .manager_fmanager_menu :-moz-any(.manager_list_icon) {
   vertical-align: text-bottom;
+}
+
+.manager_fmanager_info_tab .manager_item_tab.manager_selected:focus {
+  box-shadow: inset 0 -2px #1ca1c1;
+  color: #1ca1c1;
 }
 
 /* making editor tabs less material-like */

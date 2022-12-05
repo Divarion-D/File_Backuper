@@ -94,30 +94,30 @@ Glyphs list
 }
 
 .manager_fmanager_cards {
-  background-color: #f4f4f4;
+  background-color: #20262b;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles {
   padding: 0;
   border-radius: 3px;
-  background-color: #ffffff;
-  border-color: #ccd7e6;
+  background-color: #2a2b2d;
+  border-color: #384047;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles.manager_selected {
-  border-color: #28b263;
+  border-color: #7a67eb;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles.manager_drag_over {
-  background-color: #e6e6e6;
+  background-color: #384047;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles.manager_drag_over.manager_selected {
-  background-color: #ffffff;
+  background-color: #2a2b2d;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles .manager_fmanager_folder_icon {
   margin-left: 4px;
-  color: #28b263;
+  color: #7a67eb;
   font-size: 90px;
 }
 .manager_fmanager_cards .manager_dataview_item.tiles .manager_fmanager_folder_icon:before {
-  margin-left: 8px;
+  margin-left: 0px;
 }
 
 .manager_fmanager_card_label {
@@ -132,7 +132,7 @@ Glyphs list
   height: 119px;
 }
 .manager_fmanager_card_preview.file {
-  background-color: white;
+  background-color: #313335;
   height: 124px;
 }
 .manager_fmanager_card_preview.file:before {
@@ -150,17 +150,17 @@ Glyphs list
 }
 .manager_fmanager_card_panel.file {
   height: 30px;
-  border-top: 1px solid #ccd7e6;
+  border-top: 1px solid #384047;
 }
 
 .manager_fmanager_card_name {
   display: inline-block;
   white-space: nowrap;
-  font-weight: bold;
+  font-weight: 600;
   width: 155px;
   height: 29px;
   line-height: 30px;
-  color: #475466;
+  color: rgba(255, 255, 255, 0.9);
 }
 .manager_fmanager_card_name.folder {
   overflow: hidden;
@@ -168,7 +168,7 @@ Glyphs list
 }
 .manager_fmanager_card_name .manager_fmanager_file-type-icon {
   margin: 0;
-  height: 27px;
+  height: 29px;
 }
 
 .manager_fmanager_menu_icon {
@@ -178,11 +178,11 @@ Glyphs list
   border-radius: 100px;
   right: 12px;
   bottom: 10px;
-  color: #475466;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 20px;
 }
 .manager_fmanager_menu_icon:hover {
-  background-color: #f4f4f4;
+  background-color: #20262b;
 }
 
 .file_name_text {
@@ -227,7 +227,7 @@ Glyphs list
 }
 
 .manager_fmanager_preview_info.extra {
-  border-color: #f4f4f4 transparent transparent;
+  border-color: #20262b transparent transparent;
 }
 .manager_fmanager_preview_info .manager_template {
   padding: 0;
@@ -235,7 +235,7 @@ Glyphs list
 .manager_fmanager_preview_info .key_col {
   float: left;
   width: 40%;
-  font-weight: bold;
+  font-weight: 600;
   text-align: right;
 }
 .manager_fmanager_preview_info .value_col {
@@ -253,31 +253,31 @@ Glyphs list
 }
 
 .manager_fmanager_id3tags-unknown {
-  color: #a4b4bf;
+  color: #9fa1ae;
 }
 
 .manager_fmanager_info_header {
   margin: 8px 0;
 }
 .manager_fmanager_info_header .manager_fmanager_icon {
-  color: #a4b4bf;
+  color: #9fa1ae;
   line-height: 1.5;
 }
 
 .manager_fmanager_info_title {
-  color: #475466;
-  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
 }
 
 /* plyr player style */
 .manager_fmanager_player .plyr--audio .plyr__controls {
-  background: #ffffff;
+  background: #20262b;
 }
 .manager_fmanager_player .plyr__video-wrapper {
-  background: #ffffff;
+  background: #20262b;
 }
 .manager_fmanager_player .plyr--video .plyr__controls {
-  background: linear-gradient(transparent, #ffffff);
+  background: linear-gradient(transparent, #20262b);
 }
 .manager_fmanager_player .plyr--video .plyr__progress__buffer {
   color: rgba(193, 201, 209, 0.66);
@@ -286,26 +286,26 @@ Glyphs list
 }
 .manager_fmanager_player .plyr--video .plyr__control.plyr__tab-focus,
 .manager_fmanager_player .plyr--video .plyr__control--overlaid {
-  background: #3498db;
+  background: #7a67eb;
 }
 .manager_fmanager_player .plyr--video .plyr__control--overlaid:hover {
-  background: #2386c8;
+  background: #5e47e7;
 }
 .manager_fmanager_player .plyr--video .plyr__control.plyr__tab-focus {
   box-shadow: none;
 }
 .manager_fmanager_player .plyr__time--current {
-  color: #4a5764;
+  color: rgba(255, 255, 255, 0.9);
 }
 .manager_fmanager_player .icon--not-pressed,
 .manager_fmanager_player .icon--pressed {
-  fill: #4a5764;
+  fill: rgba(255, 255, 255, 0.9);
 }
 .manager_fmanager_player .plyr__controls__item.plyr__control:hover .icon--not-pressed, .manager_fmanager_player .plyr__controls__item.plyr__control:hover .icon--pressed, .manager_fmanager_player .plyr__controls__item.plyr__volume .plyr__control:hover .icon--not-pressed, .manager_fmanager_player .plyr__controls__item.plyr__volume .plyr__control:hover .icon--pressed, .manager_fmanager_player .plyr__controls__item.plyr__control.plyr__tab-focus,
 .manager_fmanager_player .plyr__controls__item .plyr__control.plyr__tab-focus, .manager_fmanager_player .plyr__controls__item.plyr__control:hover,
 .manager_fmanager_player .plyr__controls__item .plyr__control:hover,
 .manager_fmanager_player .plyr__controls__item .plyr__control[aria-expanded=true], .manager_fmanager_player .plyr__controls__item.plyr__control[aria-expanded=true] {
-  fill: #3498db;
+  fill: #7a67eb;
   background: transparent;
 }
 .manager_fmanager_player .plyr__controls__item.plyr__control:hover .icon--not-pressed .icon--not-pressed,
@@ -322,23 +322,23 @@ Glyphs list
 .manager_fmanager_player .plyr__controls__item .plyr__control[aria-expanded=true] .icon--not-pressed,
 .manager_fmanager_player .plyr__controls__item .plyr__control[aria-expanded=true] .icon--pressed, .manager_fmanager_player .plyr__controls__item.plyr__control[aria-expanded=true] .icon--not-pressed,
 .manager_fmanager_player .plyr__controls__item.plyr__control[aria-expanded=true] .icon--pressed {
-  fill: #3498db;
+  fill: #7a67eb;
 }
 .manager_fmanager_player .plyr__controls__item.plyr__control.plyr__tab-focus,
 .manager_fmanager_player .plyr__controls__item .plyr__control.plyr__tab-focus {
   box-shadow: none;
 }
 .manager_fmanager_player .plyr--full-ui input[type=range] {
-  color: #3498db;
+  color: #7a67eb;
 }
 .manager_fmanager_player .plyr--full-ui input[type=range].plyr__tab-focus::-moz-range-track {
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+  box-shadow: 0 0 0 2px rgba(122, 103, 235, 0.5);
 }
 .manager_fmanager_player .plyr--full-ui input[type=range].plyr__tab-focus::-webkit-slider-runnable-track {
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+  box-shadow: 0 0 0 2px rgba(122, 103, 235, 0.5);
 }
 .manager_fmanager_player .plyr--full-ui input[type=range].plyr__tab-focus::-ms-track {
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+  box-shadow: 0 0 0 2px rgba(122, 103, 235, 0.5);
 }
 .manager_fmanager_player .plyr--full-ui.plyr--video input[type=range]::-moz-range-track {
   background-color: rgba(193, 201, 209, 0.66);
@@ -352,9 +352,9 @@ Glyphs list
 
 .manager_fmanager_tree .manager_tree_item.manager_selected .manager_icon,
 .manager_fmanager_tree .manager_tree_item .manager_icon {
-  color: #a4b4bf;
+  color: #9fa1ae;
   padding: 0 2px 0 0;
-  font-size: 20px;
+  font-size: 21px;
   vertical-align: text-bottom;
 }
 
@@ -364,45 +364,45 @@ Glyphs list
 
 .manager_fmanager_inner_drag_zone_list .manager_fmanager_file-type-icon, .manager_fmanager_file-type-icon {
   float: left;
-  height: 27px;
+  height: 29px;
 }
 
 .manager_fmanager_filelist .manager_dtable_colrow {
   cursor: pointer;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ccd7e6;
+  background-color: #2a2b2d;
+  border-bottom: 1px solid #384047;
 }
 .manager_fmanager_filelist .manager_dtable_colrow.manager_selected .manager_fmanager_back_icon {
   position: relative;
   top: 3px;
-  color: #ffffff;
+  color: #7a67eb;
   font-size: 23px;
   margin-right: 10px;
 }
 .manager_fmanager_filelist .manager_dtable_colrow.manager_selected .manager_fmanager_back {
-  color: #ffffff;
+  color: #7a67eb;
 }
 .manager_fmanager_filelist .manager_dtable_colrow.manager_selected .manager_fmanager_back:hover {
-  color: #ffffff;
+  color: #7a67eb;
 }
 .manager_fmanager_filelist .manager_dtable_colrow .manager_fmanager_back_icon {
   position: relative;
   top: 3px;
-  color: #3498db;
+  color: #7a67eb;
   font-size: 23px;
   margin-right: 10px;
 }
 .manager_fmanager_filelist .manager_dtable_colrow .manager_fmanager_back {
-  color: #a4b4bf;
+  color: #9fa1ae;
 }
 .manager_fmanager_filelist .manager_dtable_colrow .manager_fmanager_back:hover {
-  color: #3498db;
+  color: #7a67eb;
 }
 .manager_fmanager_filelist .wxi-folder {
   position: relative;
   top: 2px;
-  color: #a4b4bf;
-  font-size: 22px;
+  color: #9fa1ae;
+  font-size: 23px;
   margin-right: 10px;
 }
 
@@ -413,8 +413,8 @@ Glyphs list
 
 .manager_fmanager_grid_drag_zone_list {
   padding: 4px 8px;
-  border: 1px solid #ccd7e6;
-  font-weight: bold;
+  border: 1px solid #384047;
+  font-weight: 600;
 }
 
 .manager_fmanager_inner_drag_zone_list {
@@ -432,41 +432,41 @@ Glyphs list
 .manager_fmanager_inner_drag_zone_list .wxi-folder {
   position: relative;
   top: 2px;
-  color: #a4b4bf;
-  font-size: 22px;
+  color: #9fa1ae;
+  font-size: 23px;
   margin-right: 10px;
 }
 
 .manager_fmanager_prompt .manager_win_head {
-  border-color: #ffffff;
+  border-color: #2a2b2d;
 }
 .manager_fmanager_prompt .manager_win_head .manager_toolbar {
-  background: #ffffff;
+  background: #2a2b2d;
 }
 .manager_fmanager_prompt .manager_win_head .manager_toolbar .manager_el_label {
-  color: #475466;
+  color: rgba(255, 255, 255, 0.9);
 }
 .manager_fmanager_prompt .manager_win_head .manager_toolbar .manager_icon_button .manager_icon {
-  color: #a4b4bf;
+  color: #9fa1ae;
 }
 .manager_fmanager_prompt .manager_win_head .manager_toolbar .manager_icon_button:hover .manager_icon {
-  color: #475466;
+  color: rgba(255, 255, 255, 0.9);
 }
 .manager_fmanager_prompt .manager_fmanager_prompt_input input {
-  border-color: #cccccc;
-  border-bottom-color: #cccccc;
+  border-color: transparent;
+  border-bottom-color: #384047;
 }
 .manager_fmanager_prompt .manager_fmanager_prompt_input input:focus {
-  border-color: #3498db;
-  border-bottom-color: #3498db;
+  border-color: transparent;
+  border-bottom-color: #7a67eb;
 }
 .manager_fmanager_prompt .manager_fmanager_prompt_input.manager_invalid input {
-  border-color: #fea5a8;
-  border-bottom-color: #fea5a8;
+  border-color: #fe6158;
+  border-bottom-color: #fe6158;
 }
 .manager_fmanager_prompt .manager_fmanager_prompt_input.manager_invalid:focus {
-  border-color: #fea5a8;
-  border-bottom-color: #fea5a8;
+  border-color: #fe6158;
+  border-bottom-color: #fe6158;
 }
 
 .manager_fmanager_progress .manager_win_head {
@@ -474,8 +474,8 @@ Glyphs list
 }
 
 .manager_fmanager_progress_head {
-  box-shadow: inset 0 4px #3498db;
-  background-color: #ffffff;
+  box-shadow: inset 0 4px #7a67eb;
+  background-color: #2a2b2d;
 }
 .manager_fmanager_progress_head .manager_template {
   padding-top: 12px;
@@ -487,7 +487,7 @@ Glyphs list
 }
 
 .manager_fmanager_progress_counter {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .manager_fmanager_progress_name {
@@ -588,16 +588,16 @@ Glyphs list
   text-overflow: ellipsis;
   padding: 0;
   line-height: 38px;
-  font-size: 17px;
+  font-size: 16px;
 }
 
 .manager_fmanager_path_chunk:hover {
   cursor: pointer;
-  color: #3498db;
+  color: #7a67eb;
 }
 
 .manager_fmanager_context-menu-hotkey {
-  color: #a4b4bf;
+  color: #9fa1ae;
   float: right;
 }
 
@@ -619,7 +619,7 @@ Glyphs list
 .manager_fmanager_filelist .manager_drag_over.manager_selected .wxi-folder:before, .manager_fmanager_filelist .manager_drag_over.manager_row_select .wxi-folder:before,
 .manager_fmanager_cards .manager_drag_over.manager_selected .wxi-folder:before,
 .manager_fmanager_cards .manager_drag_over.manager_row_select .wxi-folder:before,
-.manager_fmanager_tree .manager_drag_over.manager_selected .wxi-folder:before,
+.managerer_fmanager_tree .manager_drag_over.manager_selected .wxi-folder:before,
 .manager_fmanager_tree .manager_drag_over.manager_row_select .wxi-folder:before {
   content: "";
   /* closed folder */
@@ -632,7 +632,7 @@ Glyphs list
   margin-bottom: 10px;
 }
 .manager_fmanager_confirm .manager_popup_text .item {
-  font-weight: bold;
+  font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -642,45 +642,43 @@ Glyphs list
   z-index: 1 !important;
 }
 
-/* flat overrides */
-.manager_fmanager_path_chunk:hover {
-  cursor: pointer;
-  color: #ffffff;
-}
-
-.manager_fmanager_progress_head {
-  box-shadow: inset 0 4px #28b263;
-}
-
-.manager_fmanager_info_tab .manager_item_tab.manager_selected:focus {
-  outline-style: none;
-}
-
-.manager_fmanager_tree .manager_tree_item.manager_selected .manager_icon,
-.manager_fmanager_tree .manager_tree_item .manager_icon {
-  vertical-align: text-top;
+/* material overrides */
+.manager_fmanager_filelist .wxi-folder:before {
+  margin-left: -2px;
 }
 
 .manager_fmanager_mode_icon {
-  font-size: 17px;
+  font-size: 18px;
 }
 
-/* editor tabs */
-.manager_fmanager_editor_tab.manager_item_tab .tab_content {
-  top: 3px;
+.manager_fmanager_preview_toggle .manager_button .manager_icon_btn {
+  color: rgba(255, 255, 255, 0.9);
+  vertical-align: middle;
 }
 
-.manager_tab_list .manager_list_item .tab_content .manager_icon {
-  font-size: 17px;
+.manager_fmanager_preview_toggle :-moz-any(.manager_icon_btn) {
+  vertical-align: text-bottom;
 }
 
-.manager_fmanager_editor_tab.manager_item_tab,
-.manager_fmanager_editor_tab.manager_item_tab.manager_selected,
-.manager_fmanager_editor_tab.manager_item_tab.manager_selected:focus {
-  border-color: #ffffff;
+.manager_fmanager_editor_save .manager_fmanager_icon.fmi-circle {
+  vertical-align: initial;
 }
 
-.manager_fmanager_path .manager_template {
-  color: #fff;
-  background-color: #3498db;
+.manager_fmanager_info_tab .manager_item_tab.manager_selected:focus:after {
+  background: #7a67eb;
+}
+
+/* making editor tabs less material-like */
+.manager_item_tab.manager_fmanager_editor_tab {
+  overflow: hidden;
+  white-space: nowrap;
+  border-radius: 0;
+  max-width: 250px;
+  box-shadow: inset -1px 0 #384047;
+}
+.manager_item_tab.manager_fmanager_editor_tab:after {
+  display: none;
+}
+.manager_item_tab.manager_fmanager_editor_tab:hover, .manager_item_tab.manager_fmanager_editor_tab.manager_selected:hover {
+  background-color: #384047;
 }

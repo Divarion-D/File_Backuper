@@ -173,3 +173,10 @@ def cron_upload_files(request):
         return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
     cron_upload_file()
     return JsonResponse({'status': 'success'})
+
+def cron_clear(request):
+    key = request.GET.get('key')
+    if key != settings.CRON_KEY:
+        return JsonResponse({'status': 'error', 'error': 'Incorrect key'})
+    cron_cleartmp()
+    return JsonResponse({'status': 'success'})

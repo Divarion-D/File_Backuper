@@ -535,7 +535,7 @@
                     var e = this,
                         i = this.config.views,
                         n = null;
-                    if ("" === t) return Promise.resolve(this._loadError("", new Error("Webix Jet: Empty url segment")));
+                    if ("" === t) return Promise.resolve(this._loadError("", new Error("Manager Jet: Empty url segment")));
                     try {
                         i && "string" == typeof (n = "function" == typeof i ? i(t) : i[t]) && ((t = n), (n = null)),
                             n || ("_hidden" === t ? (n = { hidden: !0 }) : "_blank" === t ? (n = {}) : ((t = t.replace(/\./g, "/")), (n = this.require("jet-views", t))));

@@ -784,7 +784,7 @@ button,
   line-height: 20px;
   color: #666666;
   font-size: 20px;
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
 }
 .manager_arrow_icon:before {
   content: '\F003';
@@ -1278,7 +1278,7 @@ button,
   position: absolute;
   top: 50%;
   right: 2px;
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   font-size: 20px;
   width: 24px;
   height: 24px;
@@ -3784,7 +3784,7 @@ body:not(:-moz-handler-blocked) .manager_el_select select {
 }
 .manager_clear_icon:hover::before {
   content: "\F011";
-  font-family: "Webix Material Icons";
+  font-family: "Managerer Material Icons";
 }
 .manager_view input::-ms-clear {
   display: none;
@@ -3993,7 +3993,7 @@ legend.manager_required:after,
 }
 .manager_multicombo_delete::after {
   content: "\F011";
-  font-family: "Webix Material Icons";
+  font-family: "Managererer Material Icons";
 }
 .manager_multilist .manager_list_item {
   white-space: nowrap;
@@ -4849,7 +4849,7 @@ legend.manager_forminput_label_top {
   z-index: 95;
 }
 .manager_progress_icon .manager_progress_state {
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   font-size: 50px;
   position: absolute;
   left: 50%;
@@ -5080,7 +5080,7 @@ legend.manager_forminput_label_top {
 .manager_treemap_reset:before {
   content: "\F011";
   color: #666666;
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   font-size: 16px;
   display: block;
   cursor: pointer;
@@ -5602,7 +5602,7 @@ body.manager_print {
 .manager_icon_btn,
 .manager_input_icon {
   display: inline-block;
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   font-style: normal;
   font-weight: normal;
   line-height: 1;
@@ -5894,7 +5894,7 @@ body.manager_print {
 .manager_accordionitem .manager_accordionitem_header .manager_accordionitem_button {
   color: #fff;
   background-image: none;
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   font-size: 24px;
   text-align: center;
   width: 24px;
@@ -6076,7 +6076,7 @@ body.manager_print {
 .manager_view .manager_tree_open,
 .manager_view .manager_tree_close {
   background-image: none;
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   font-size: 16px;
   text-align: center;
   color: #666666;
@@ -6099,7 +6099,7 @@ body.manager_print {
   width: 7px;
   height: auto;
   font-size: 16px;
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   line-height: 1px;
   margin-top: 3px;
 }
@@ -6548,7 +6548,7 @@ div.manager_inp_static,
 .manager_custom_checkbox:before {
   content: "\F020";
   color: #3498db;
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   font-weight: 600;
   font-size: 20px;
   height: 14px;
@@ -6722,7 +6722,7 @@ a:active .manager_custom_radio {
 }
 /* based on MaterialDesignIcons.com */
 @font-face {
-  font-family: "Webix Material Icons";
+  font-family: "Manager Material Icons";
   src: url('../fonts/managermdi-webfont.woff2') format('woff2'), url('../fonts/managermdi-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
